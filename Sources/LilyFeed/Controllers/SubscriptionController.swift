@@ -18,7 +18,7 @@ struct SubscriptionController: RouteCollection {
     
     func index(req: Request) async throws -> View {
         return try await req.view
-            .render("index", [
+            .render("subscriptions-index", [
                 "subscriptions": SubscriptionModel.query(on: req.db).paginate(for: req).items
             ])
     }
