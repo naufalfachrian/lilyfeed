@@ -1,4 +1,4 @@
-@testable import App
+@testable import LilyFeed
 import XCTVapor
 
 final class AppTests: XCTestCase {
