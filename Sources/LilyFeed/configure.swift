@@ -3,6 +3,7 @@ import Fluent
 import FluentMySQLDriver
 import Leaf
 import Vapor
+import WebSubSubscriber
 
 // configures your application
 public func configure(_ app: Application) async throws {
@@ -19,7 +20,7 @@ public func configure(_ app: Application) async throws {
 
 
     app.views.use(.leaf)
-
+    app.migrations.add(CreateSubscriptionsTable())
     
 
     // register routes

@@ -3,10 +3,31 @@
 <head>
   <meta charset="utf-8">
 
-  <title>#(title)</title>
+  <title>LilyFeed</title>
 </head>
 
 <body>
-  <h1>#(title)</h1>
+  <h1>Subscriptions</h1>
+  
+  <table>
+  <thead>
+    <tr>
+      <th>Topic<th>
+      <th>Hub<th>
+      <th>Callback<th>
+      <th>State<th>
+    </tr>
+  </thead>
+  <tbody>
+    #for(subscription in subscriptions):
+    <tr>
+      <th>#(subscription.topic)<th>
+      <th>#(subscription.hub)<th>
+      <th>#(subscription.callback)<th>
+      <th>#(subscription.state)<th>
+    </tr>
+    #endfor
+  </tbody>
+  </table>
 </body>
 </html>
