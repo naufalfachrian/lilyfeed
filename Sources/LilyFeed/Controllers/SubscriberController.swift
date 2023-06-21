@@ -9,16 +9,32 @@ import Vapor
 import WebSubSubscriber
 
 
-struct SubscriberController: SubscriberRouteCollection {
+struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
     
     let path: PathComponent = ""
     
-    func payload(req: Request) async throws -> Response {
-        let payload = PayloadModel(
-            callback: req.url.string,
-            content: req.body.string ?? ""
+    func payload(for subscription: Subscription, on req: Request) async throws -> Response {
+        req.logger.info(
+        """
+            Payload received on LilyFeed's userspace: \(req.body)
+        """
         )
-        try await payload.save(on: req.db)
+        switch try await self.parse(req, for: subscription) {
+        case .success(let videos):
+            req.logger.info(
+            """
+                \(videos.count) saved!
+            """
+            )
+            break
+        case .failure(let reason):
+            req.logger.info(
+            """
+                \(reason.localizedDescription) occurred parsing payload!
+            """
+            )
+            break
+        }
         return Response(status: .noContent)
     }
     
