@@ -18,8 +18,8 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
     @ID(key: .id)
     var id: UUID?
     
-    @Field(key: "topic")
-    var topic: String
+    @OptionalParent(key: "subscription_id")
+    var subscription: SubscriptionModel?
     
     @Field(key: "channel_id")
     var channelID: String
@@ -45,10 +45,14 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
     @Field(key: "created_at")
     var createdAt: Date
     
+    var fromSubscription: Subscription? {
+        return self.subscription
+    }
+    
     init() { }
     
     init(
-        topic: String,
+        subscription: SubscriptionModel?,
         channelID: String,
         channelName: String,
         channelURL: URL,
@@ -57,7 +61,7 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
         videoURL: URL,
         publishedAt: Date
     ) {
-        self.topic = topic
+        self.subscription = subscription
         self.channelID = channelID
         self.channelName = channelName
         self.channelURL = channelURL
@@ -100,7 +104,7 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
             return nil
         }
         self.init(
-            topic: subscription.topic,
+            subscription: subscription as? SubscriptionModel,
             channelID: channelID,
             channelName: channelName,
             channelURL: channelURL,

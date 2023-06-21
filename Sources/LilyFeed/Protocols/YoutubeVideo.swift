@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import WebSubSubscriber
 
 
 protocol YoutubeVideo {
     
-    var topic: String { get }
+    var fromSubscription: Subscription? { get }
     
     var channelID: String { get }
     

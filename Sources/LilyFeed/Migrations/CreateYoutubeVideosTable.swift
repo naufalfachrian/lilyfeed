@@ -12,7 +12,7 @@ public struct CreateYoutubeVideosTable: AsyncMigration {
     public func prepare(on database: Database) async throws {
         try await database.schema("youtube_videos")
             .id()
-            .field("topic", .string, .required)
+            .field("subscription_id", .uuid, .references("subscriptions", "id"))
             .field("channel_id", .string, .required)
             .field("channel_name", .string, .required)
             .field("channel_url", .string, .required)
