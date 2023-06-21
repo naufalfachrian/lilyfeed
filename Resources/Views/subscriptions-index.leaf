@@ -12,19 +12,21 @@
   <table>
   <thead>
     <tr>
-      <th>Topic<th>
-      <th>Hub<th>
-      <th>Callback<th>
-      <th>State<th>
+      <th>#</th>
+      <th>Topic</th>
+      <th>Hub</th>
+      <th>Callback</th>
+      <th>State</th>
     </tr>
   </thead>
   <tbody>
     #for(subscription in subscriptions):
     <tr>
-      <th>#(subscription.topic)<th>
-      <th>#(subscription.hub)<th>
-      <th>#(subscription.callback)<th>
-      <th>#(subscription.state)<th>
+      <td>#(subscription.id)</td>
+      <td>#(subscription.topic)</td>
+      <td>#(subscription.hub)</td>
+      <td>#(subscription.callback)</td>
+      <td>#(subscription.state)</td>
     </tr>
     #endfor
   </tbody>

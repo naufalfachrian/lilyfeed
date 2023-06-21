@@ -12,6 +12,7 @@
   <table>
   <thead>
     <tr>
+      <th>Subscription</th>
       <th>Topic</th>
       <th>Channel Name</th>
       <th>Channel URL</th>
@@ -22,11 +23,20 @@
   <tbody>
     #for(youtubeVideo in youtubeVideos):
     <tr>
-      <th>#(youtubeVideo.topic)</th>
-      <th>#(youtubeVideo.channelName)</th>
-      <th>#(youtubeVideo.channelURL)</th>
-      <th>#(youtubeVideo.videoTitle)</th>
-      <th>#(youtubeVideo.videoURL)</th>
+      <td>#(youtubeVideo.subscription?.id)</td>
+      <td>#(youtubeVideo.topic)</td>
+      <td>#(youtubeVideo.channelName)</td>
+      <td>
+        <a href="#(youtubeVideo.channelURL.absoluteString)">
+          #(youtubeVideo.channelURL.absoluteString)
+        </a>
+      </td>
+      <td>#(youtubeVideo.videoTitle)</td>
+      <td>
+        <a href="#(youtubeVideo.videoURL.absoluteString)">
+          #(youtubeVideo.videoURL.absoluteString)
+        </a>
+      </td>
     </tr>
     #endfor
   </tbody>
