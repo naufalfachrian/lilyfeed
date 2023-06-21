@@ -7,9 +7,10 @@
 
 import Fluent
 
-public struct CreateYoutubeVideosTable: AsyncMigration {
+
+struct CreateYoutubeVideosTable: AsyncMigration {
     
-    public func prepare(on database: Database) async throws {
+    func prepare(on database: Database) async throws {
         try await database.schema("youtube_videos")
             .id()
             .field("subscription_id", .uuid, .references("subscriptions", "id"))
@@ -24,7 +25,7 @@ public struct CreateYoutubeVideosTable: AsyncMigration {
             .create()
     }
     
-    public func revert(on database: Database) async throws {
+    func revert(on database: Database) async throws {
         try await database.schema("youtube_videos").delete()
     }
     

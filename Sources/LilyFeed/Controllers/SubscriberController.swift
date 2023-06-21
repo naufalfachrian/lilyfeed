@@ -13,6 +13,12 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
     
     let path: PathComponent = ""
     
+    func boot(routes: RoutesBuilder) throws {
+        let routesGrouped = routes.grouped(UserBasicAuthenticator())
+            .grouped(UserModel.guardMiddleware())
+        try self.setup(routes: routesGrouped)
+    }
+    
     func payload(for subscription: Subscription, on req: Request) async throws -> Response {
         req.logger.info(
         """
