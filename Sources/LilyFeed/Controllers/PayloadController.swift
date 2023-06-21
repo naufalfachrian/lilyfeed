@@ -16,6 +16,11 @@ struct PayloadController: RouteCollection {
     }
     
     func index(req: Request) async throws -> View {
+        req.logger.info(
+        """
+            Payload received on LilyFeed's userspace: \(req.body)
+        """
+        )
         return try await req.view
             .render("payloads-index", [
                 "payloads": PayloadModel.query(on: req.db).paginate(for: req).items
