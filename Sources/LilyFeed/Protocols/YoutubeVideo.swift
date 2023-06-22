@@ -17,13 +17,13 @@ protocol YoutubeVideo {
     
     var channelName: String { get }
     
-    var channelURL: URL { get }
+    var channelURL: String { get }
     
     var videoID: String { get }
     
     var videoTitle: String { get }
     
-    var videoURL: URL { get }
+    var videoURL: String { get }
     
     var publishedAt: Date { get }
     

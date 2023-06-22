@@ -28,7 +28,7 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
     var channelName: String
     
     @Field(key: "channel_url")
-    var channelURL: URL
+    var channelURL: String
     
     @Field(key: "video_id")
     var videoID: String
@@ -37,7 +37,7 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
     var videoTitle: String
     
     @Field(key: "video_url")
-    var videoURL: URL
+    var videoURL: String
     
     @Field(key: "published_at")
     var publishedAt: Date
@@ -55,10 +55,10 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
         subscription: SubscriptionModel?,
         channelID: String,
         channelName: String,
-        channelURL: URL,
+        channelURL: String,
         videoID: String,
         videoTitle: String,
-        videoURL: URL,
+        videoURL: String,
         publishedAt: Date
     ) {
         self.$subscription.id = subscription?.id
@@ -85,9 +85,6 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
         guard let channelURLString = entry.authors?.last?.uri else {
             return nil
         }
-        guard let channelURL = URL(string: channelURLString) else {
-            return nil
-        }
         guard let videoID = yt.videoID else {
             return nil
         }
@@ -97,9 +94,6 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
         guard let videoURLString = entry.links?.last?.attributes?.href else {
             return nil
         }
-        guard let videoURL = URL(string: videoURLString) else {
-            return nil
-        }
         guard let publishedAt = entry.published else {
             return nil
         }
@@ -107,10 +101,10 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
             subscription: subscription as? SubscriptionModel,
             channelID: channelID,
             channelName: channelName,
-            channelURL: channelURL,
+            channelURL: channelURLString,
             videoID: videoID,
             videoTitle: videoTitle,
-            videoURL: videoURL,
+            videoURL: videoURLString,
             publishedAt: publishedAt
         )
     }
