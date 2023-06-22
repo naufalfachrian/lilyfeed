@@ -23,7 +23,7 @@
   <tbody>
     #for(youtubeVideo in youtubeVideos):
     <tr>
-      <td>#(youtubeVideo.subscription?.id)</td>
+      <td>#(youtubeVideo.subscription_id)</td>
       <td>#(youtubeVideo.topic)</td>
       <td>#(youtubeVideo.channelName)</td>
       <td>
