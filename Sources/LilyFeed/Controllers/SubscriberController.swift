@@ -20,24 +20,24 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
         ])
     }
     
-    func payload(for subscription: Subscription, on req: Request) async throws -> Response {
-        req.logger.info(
+    func payload(_ payload: Request, from subscription: SubscriptionModel) async throws -> Response {
+        payload.logger.info(
             """
-            Payload received on LilyFeed's userspace from request: \(req.id)
+            Payload received on LilyFeed's userspace from request: \(payload.id)
             """
         )
-        switch try await self.parse(req, for: subscription) {
+        switch try await self.parse(payload, for: subscription) {
         case .success(let videos):
-            req.logger.info(
+            payload.logger.info(
                 """
-                \(videos.count) saved from request: \(req.id)!
+                \(videos.count) saved from request: \(payload.id)!
                 """
             )
             break
         case .failure(let reason):
-            req.logger.info(
+            payload.logger.info(
                 """
-                \(reason.localizedDescription) occurred when parsing payload on request: \(req.id)!
+                \(reason.localizedDescription) occurred when parsing payload on request: \(payload.id)!
                 """
             )
             break
