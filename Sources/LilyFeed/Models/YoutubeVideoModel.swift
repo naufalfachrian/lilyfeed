@@ -61,7 +61,7 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
         videoURL: URL,
         publishedAt: Date
     ) {
-        self.subscription = subscription
+        self.$subscription.id = subscription?.id
         self.channelID = channelID
         self.channelName = channelName
         self.channelURL = channelURL
