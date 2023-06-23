@@ -18,7 +18,6 @@ struct CreateDiscordWebhooksTable: AsyncMigration {
             .field("role_id_to_mention", .string, .required)
             .field("last_publish_at", .datetime)
             .field("created_at", .datetime, .required)
-            .field("updated_at", .datetime)
             .unique(on: "webhook_url")
             .create()
     }

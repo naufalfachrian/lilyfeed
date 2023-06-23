@@ -13,7 +13,6 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-mysql-driver.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
         .package(url: "https://github.com/WebSubKit/websub-subscriber.git", from: "0.9.1"),
-        .package(url: "https://github.com/CrudifyKit/crudify-kit.git", from: "0.1.0"),
     ],
     targets: [
         .executableTarget(
@@ -24,7 +23,6 @@ let package = Package(
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "WebSubSubscriber", package: "websub-subscriber"),
-                .product(name: "CrudifyKit", package: "crudify-kit"),
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

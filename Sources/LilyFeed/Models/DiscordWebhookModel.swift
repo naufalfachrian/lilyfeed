@@ -5,13 +5,12 @@
 //  Created by Bunga Mungil on 23/06/23.
 //
 
-import CrudifyKit
 import Fluent
 import Vapor
 import WebSubSubscriber
 
 
-final class DiscordWebhookModel: DiscordWebhook, Model, Content, HasTimestamp {
+final class DiscordWebhookModel: DiscordWebhook, Model, Content {
     
     static var schema: String = "discord_webhooks"
     
@@ -25,16 +24,13 @@ final class DiscordWebhookModel: DiscordWebhook, Model, Content, HasTimestamp {
     var webhookURL: String
     
     @Field(key: "role_id_to_mention")
-    var roleIdToMention: String
+    var roleIDToMention: String
     
     @Field(key: "last_publish_at")
     var lastPublishAt: Date?
     
-    @Field(timestamp: .createdAt)
+    @Field(key: "created_at")
     var createdAt: Date?
-    
-    @Field(timestamp: .updatedAt)
-    var updatedAt: Date?
     
     var forSubscription: Subscription? {
         return self.subscription
@@ -48,6 +44,15 @@ final class DiscordWebhookModel: DiscordWebhook, Model, Content, HasTimestamp {
     ) {
         self.webhookURL = webhookURL
         self.$subscription.id = subscription?.id
+        self.createdAt = Date()
+    }
+    
+    init(
+        webhookURL: String,
+        subscriptionID: UUID?
+    ) {
+        self.webhookURL = webhookURL
+        self.$subscription.id = subscriptionID
         self.createdAt = Date()
     }
     
