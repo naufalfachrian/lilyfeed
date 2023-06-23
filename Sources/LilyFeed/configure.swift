@@ -23,6 +23,7 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateSubscriptionsTable())
     app.migrations.add(CreateYoutubeVideosTable())
     app.migrations.add(CreateUsersTable())
+    app.migrations.add(CreateDiscordWebhooksTable())
     
 
     // register routes
