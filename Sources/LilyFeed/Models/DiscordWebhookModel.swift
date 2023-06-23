@@ -24,6 +24,9 @@ final class DiscordWebhookModel: DiscordWebhook, Model, Content, HasTimestamp {
     @Field(key: "webhook_url")
     var webhookURL: String
     
+    @Field(key: "role_id_to_mention")
+    var roleIdToMention: String
+    
     @Field(key: "last_publish_at")
     var lastPublishAt: Date?
     

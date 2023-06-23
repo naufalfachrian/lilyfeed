@@ -14,6 +14,8 @@ protocol DiscordWebhook {
     var forSubscription: Subscription? { get }
     
     var webhookURL: String { get }
+    
+    var roleIdToMention: String { get }
         
     var lastPublishAt: Date? { get }
     

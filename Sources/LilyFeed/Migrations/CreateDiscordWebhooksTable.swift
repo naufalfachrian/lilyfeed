@@ -15,6 +15,7 @@ struct CreateDiscordWebhooksTable: AsyncMigration {
             .id()
             .field("subscription_id", .uuid, .references("subscriptions", "id"))
             .field("webhook_url", .string, .required)
+            .field("role_id_to_mention", .string, .required)
             .field("last_publish_at", .datetime)
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime)

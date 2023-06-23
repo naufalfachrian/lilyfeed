@@ -5,6 +5,7 @@
 //  Created by Bunga Mungil on 20/06/23.
 //
 
+import Fluent
 import Vapor
 import WebSubSubscriber
 
@@ -33,6 +34,7 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
                 \(videos.count) saved from request: \(payload.id)!
                 """
             )
+            try await self.hook(videos, from: subscription, on: payload.db, with: payload.client)
             break
         case .failure(let reason):
             payload.logger.info(
@@ -43,6 +45,21 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
             break
         }
         return Response(status: .noContent)
+    }
+    
+}
+
+
+fileprivate extension SubscriberController {
+    
+    func hook(_ videos: [YoutubeVideo], from subscription: SubscriptionModel, on db: Database, with client: Client) async throws {
+        guard let discordWebhook = try await DiscordWebhookModel.query(on: db)
+            .filter(\.$subscription.$id, .equal, subscription.id)
+            .first()
+        else {
+            return
+        }
+        client.post(URI(string: discordWebhook.webhookURL), content: <#T##T#>)
     }
     
 }
