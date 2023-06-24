@@ -5,6 +5,7 @@
 //  Created by Bunga Mungil on 23/06/23.
 //
 
+import Foundation
 import Vapor
 
 struct DiscordWebhookController: RouteCollection {
@@ -40,11 +41,30 @@ struct DiscordWebhookController: RouteCollection {
     }
     
     func update(req: Request) async throws -> Response {
-        //
+        guard let uuidString = req.parameters.get("id"),
+              let uuid = UUID(uuidString: uuidString)
+        else {
+            return Response(status: .notFound)
+        }
+        let updateRequest = try req.content.decode(DiscordWebhook.UpdateRequest.self)
+        return try await updateRequest
+            .update(uuid, on: req.db)
+            .encodeResponse(for: req)
     }
     
     func delete(req: Request) async throws -> Response {
-        //
+        guard let uuidString = req.parameters.get("id"),
+              let uuid = UUID(uuidString: uuidString)
+        else {
+            return Response(status: .notFound)
+        }
+        guard let deleted = try await DiscordWebhookModel
+            .find(uuid, on: req.db)
+        else {
+            return Response(status: .notFound)
+        }
+        try await deleted.delete(on: req.db)
+        return Response(status: .noContent)
     }
     
 }

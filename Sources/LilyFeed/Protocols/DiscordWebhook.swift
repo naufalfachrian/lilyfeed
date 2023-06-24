@@ -14,6 +14,8 @@ protocol DiscordWebhook {
     
     typealias CreateRequest = CreateDiscordWebhookRequest
     
+    typealias UpdateRequest = UpdateDiscordWebhookRequest
+    
     var forSubscription: Subscription? { get }
     
     var webhookURL: String { get }
@@ -77,5 +79,19 @@ extension UpdateDiscordWebhookRequest: Content { }
 
 
 extension UpdateDiscordWebhookRequest {
+    
+    func update(_ id: UUID, on db: Database) async throws -> DiscordWebhookModel {
+        guard let updated = try await DiscordWebhookModel.find(id, on: db) else {
+            throw HTTPResponseStatus.notFound
+        }
+        if let updateWebhookURL = self.webhookURL {
+            updated.webhookURL = updateWebhookURL
+        }
+        if let updateRoleIDToMention = self.roleIDToMention {
+            updated.roleIDToMention = updateRoleIDToMention
+        }
+        try await updated.update(on: db)
+        return updated
+    }
     
 }
