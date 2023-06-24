@@ -40,18 +40,22 @@ final class DiscordWebhookModel: DiscordWebhook, Model, Content {
     
     init(
         _ webhookURL: String,
+        roleIDToMention: String,
         for subscription: SubscriptionModel?
     ) {
         self.webhookURL = webhookURL
+        self.roleIDToMention = roleIDToMention
         self.$subscription.id = subscription?.id
         self.createdAt = Date()
     }
     
     init(
         webhookURL: String,
+        roleIDToMention: String,
         subscriptionID: UUID?
     ) {
         self.webhookURL = webhookURL
+        self.roleIDToMention = roleIDToMention
         self.$subscription.id = subscriptionID
         self.createdAt = Date()
     }
