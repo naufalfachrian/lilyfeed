@@ -5,12 +5,17 @@
 //  Created by Bunga Mungil on 23/06/23.
 //
 
-import Foundation
+import Vapor
 
 
-// TODO: See
-// https://discord.com/developers/docs/resources/webhook
-// https://discord.com/developers/docs/resources/channel#embed-object
 struct WebhookRequest {
     
+    let content: String
+    
 }
+
+
+extension WebhookRequest: Codable { }
+
+
+extension WebhookRequest: Content { }

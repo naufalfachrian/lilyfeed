@@ -34,7 +34,7 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
                 \(videos.count) saved from request: \(payload.id)!
                 """
             )
-            try await self.hook(videos, from: subscription, on: payload.db, with: payload.client)
+            try await self.hook(videos, from: subscription, on: payload.db, with: payload.client, logger: payload.logger)
             break
         case .failure(let reason):
             payload.logger.info(
@@ -52,14 +52,45 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
 
 fileprivate extension SubscriberController {
     
-    func hook(_ videos: [YoutubeVideo], from subscription: SubscriptionModel, on db: Database, with client: Client) async throws {
+    func hook(_ videos: [YoutubeVideo], from subscription: SubscriptionModel, on db: Database, with client: Client, logger: Logger? = nil) async throws {
         guard let discordWebhook = try await DiscordWebhookModel.query(on: db)
             .filter(\.$subscription.$id, .equal, subscription.id)
             .first()
         else {
             return
         }
-        client.post(URI(string: discordWebhook.webhookURL), content: <#T##T#>)
+        for youtube in videos {
+            let content = "<@&\(discordWebhook.roleIDToMention)> \(youtube.videoTitle)"
+            let response = try await client.post(
+                URI(string: "\(discordWebhook.webhookURL)?wait=true"),
+                content: WebhookRequest(
+                    content: content
+                )
+            )
+            logger?.info(
+                """
+                Video: \(youtube.videoTitle)
+                Send to: \(discordWebhook.webhookURL)
+                """
+            )
+            if response.status == .ok {
+                logger?.info(
+                    """
+                    Video: \(youtube.videoTitle)
+                    Send to: \(discordWebhook.webhookURL)
+                    Success!
+                    """
+                )
+            } else {
+                logger?.info(
+                    """
+                    Video: \(youtube.videoTitle)
+                    Send to: \(discordWebhook.webhookURL)
+                    Failed with status: \(response.status.stringValue)
+                    """
+                )
+            }
+        }
     }
     
 }
