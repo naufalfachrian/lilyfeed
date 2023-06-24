@@ -60,7 +60,7 @@ fileprivate extension SubscriberController {
             return
         }
         for youtube in videos {
-            let content = "<@&\(discordWebhook.roleIDToMention)> \(youtube.videoTitle)"
+            let content = "<@&\(discordWebhook.roleIDToMention)> \(youtube.videoTitle) \(youtube.videoURL)"
             let response = try await client.post(
                 URI(string: "\(discordWebhook.webhookURL)?wait=true"),
                 content: WebhookRequest(
