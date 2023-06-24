@@ -74,6 +74,8 @@ fileprivate extension SubscriberController {
                 """
             )
             if response.status == .ok {
+                discordWebhook.lastPublishAt = Date()
+                try await discordWebhook.save(on: db)
                 logger?.info(
                     """
                     Video: \(youtube.videoTitle)

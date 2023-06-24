@@ -51,9 +51,9 @@ extension CreateDiscordWebhookRequest {
     
     func create(on db: Database) async throws -> DiscordWebhookModel {
         let created = DiscordWebhookModel(
+            subscriptionID: self.subscriptionID,
             webhookURL: self.webhookURL,
-            roleIDToMention: self.roleIDToMention,
-            subscriptionID: self.subscriptionID
+            roleIDToMention: self.roleIDToMention
         )
         try await created.save(on: db)
         return created
