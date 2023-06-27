@@ -39,19 +39,26 @@ extension UseRequestParser {
 fileprivate extension Sequence where Element == AtomFeedEntry {
     
     func storeAsYoutubeVidoes(on db: Database, for subscription: Subscription) async throws -> [YoutubeVideo] {
-        let items = self.flatMap { entry in
+        var result: [YoutubeVideo] = []
+        for item in self {
+            guard let videoID = item.yt?.videoID else {
+                continue
+            }
+            if try await YoutubeVideoModel.query(on: db)
+                .filter(\.$videoID, .equal, videoID)
+                .count() > 0 {
+                continue
+            }
             guard let youtubeVideoModel = YoutubeVideoModel(
-                entry: entry,
+                entry: item,
                 with: subscription
             ) else {
-                return [] as [YoutubeVideoModel]
+                continue
             }
-            return [youtubeVideoModel]
+            try await youtubeVideoModel.save(on: db)
+            result.append(youtubeVideoModel)
         }
-        for item in items {
-            try await item.save(on: db)
-        }
-        return items
+        return result
     }
     
 }
