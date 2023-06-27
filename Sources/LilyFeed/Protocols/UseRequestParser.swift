@@ -13,14 +13,14 @@ import WebSubSubscriber
 
 protocol UseRequestParser {
     
-    func parse(_ req: Request, for subscription: Subscription) async throws -> Result<[YoutubeVideo], Error>
+    func receiving(_ req: Request, for subscription: Subscription) async throws -> Result<[YoutubeVideo], Error>
     
 }
 
 
 extension UseRequestParser {
     
-    func parse(_ req: Request, for subscription: Subscription) async throws -> Result<[YoutubeVideo], Error> {
+    func receiving(_ req: Request, for subscription: Subscription) async throws -> Result<[YoutubeVideo], Error> {
         guard let payloadData = req.body.string?.data(using: .utf8) else {
             return .success([])
         }

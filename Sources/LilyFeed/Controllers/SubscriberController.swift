@@ -27,7 +27,7 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
             Payload received on LilyFeed's userspace from request: \(request.id)
             """
         )
-        switch try await self.parse(request, for: received.subscription) {
+        switch try await self.receiving(request, for: received.subscription) {
         case .success(let videos):
             request.logger.info(
                 """
