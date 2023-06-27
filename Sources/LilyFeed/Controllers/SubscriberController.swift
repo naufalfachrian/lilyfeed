@@ -21,25 +21,25 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
         ])
     }
     
-    func payload(_ payload: Request, from subscription: SubscriptionModel) async throws -> Response {
-        payload.logger.info(
+    func receiving(from request: Request, received: (validPayload: Request, subscription: SubscriptionModel)) async throws -> Response {
+        request.logger.info(
             """
-            Payload received on LilyFeed's userspace from request: \(payload.id)
+            Payload received on LilyFeed's userspace from request: \(request.id)
             """
         )
-        switch try await self.parse(payload, for: subscription) {
+        switch try await self.parse(request, for: received.subscription) {
         case .success(let videos):
-            payload.logger.info(
+            request.logger.info(
                 """
-                \(videos.count) saved from request: \(payload.id)!
+                \(videos.count) saved from request: \(request.id)!
                 """
             )
-            try await self.hook(videos, from: subscription, on: payload.db, with: payload.client, logger: payload.logger)
+            try await self.hook(videos, from: received.subscription, on: request.db, with: request.client, logger: request.logger)
             break
         case .failure(let reason):
-            payload.logger.info(
+            request.logger.info(
                 """
-                \(reason.localizedDescription) occurred when parsing payload on request: \(payload.id)!
+                \(reason.localizedDescription) occurred when parsing payload on request: \(request.id)!
                 """
             )
             break
@@ -88,7 +88,7 @@ fileprivate extension SubscriberController {
                     """
                     Video: \(youtube.videoTitle)
                     Send to: \(discordWebhook.webhookURL)
-                    Failed with status: \(response.status.stringValue)
+                    Failed with status: \(response.status)
                     """
                 )
             }
