@@ -5,6 +5,7 @@
 //  Created by Bunga Mungil on 21/06/23.
 //
 
+import Fluent
 import Foundation
 import WebSubSubscriber
 
@@ -26,5 +27,14 @@ protocol YoutubeVideo {
     var videoURL: String { get }
     
     var publishedAt: Date { get }
+    
+}
+
+
+extension Sequence where Element == any YoutubeVideo & Model {
+    
+    func ids(separator: String) -> String {
+        self.map { item in item.channelID }.joined(separator: separator)
+    }
     
 }

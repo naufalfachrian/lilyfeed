@@ -36,14 +36,39 @@ struct SubscriberController:
     }
     
     func parsed(from request: Request, parsed: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+        request.logger.info(
+            """
+            Payload parsed from request: \(request.id)
+            # of video entries: \(parsed.videos.count)
+            \(parsed.videos.ids(separator: "\n"))
+            """
+        )
         return try await self.storing(from: request, for: parsed)
     }
     
     func stored(from request: Request, stored: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+        request.logger.info(
+            """
+            Payload stored from request: \(request.id)
+            # of video entries: \(stored.videos.count)
+            \(stored.videos.ids(separator: "\n"))
+            """
+        )
         return try await self.findingHook(from: request, for: stored)
     }
     
     func hooked(from request: Request, for hook: Hook) async throws -> Response {
+        switch hook {
+        case .found(let webhook, let videos):
+            request.logger.info(
+                """
+                Payload hooked from request: \(request.id)
+                via: \(webhook.webhookURL)
+                # of video entries: \(videos.count)
+                \(videos.ids(separator: "\n"))
+                """
+            )
+        }
         return Response(status: .noContent)
     }
     
