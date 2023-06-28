@@ -40,7 +40,7 @@ struct SubscriberController:
             """
             Payload parsed from request: \(request.id)
             # of video entries: \(parsed.videos.count)
-            \(parsed.videos.ids(separator: "\n"))
+            \(parsed.videos.ids(separator: ","))
             """
         )
         return try await self.storing(from: request, for: parsed)
@@ -51,7 +51,7 @@ struct SubscriberController:
             """
             Payload stored from request: \(request.id)
             # of video entries: \(stored.videos.count)
-            \(stored.videos.ids(separator: "\n"))
+            \(stored.videos.ids(separator: ","))
             """
         )
         return try await self.findingHook(from: request, for: stored)
@@ -65,7 +65,7 @@ struct SubscriberController:
                 Payload hooked from request: \(request.id)
                 via: \(webhook.webhookURL)
                 # of video entries: \(videos.count)
-                \(videos.ids(separator: "\n"))
+                \(videos.ids(separator: ","))
                 """
             )
         }
