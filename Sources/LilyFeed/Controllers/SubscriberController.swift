@@ -10,7 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
+struct SubscriberController: SubscriberRouteCollection, ParsingPayload, StoringPayload {
     
     let path: PathComponent = ""
     
@@ -27,23 +27,15 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
             Payload received on LilyFeed's userspace from request: \(request.id)
             """
         )
-        switch try await self.receiving(request, for: received.subscription) {
-        case .success(let videos):
-            request.logger.info(
-                """
-                \(videos.count) saved from request: \(request.id)!
-                """
-            )
-            try await self.hook(videos, from: received.subscription, on: request.db, with: request.client, logger: request.logger)
-            break
-        case .failure(let reason):
-            request.logger.info(
-                """
-                \(reason.localizedDescription) occurred when parsing payload on request: \(request.id)!
-                """
-            )
-            break
-        }
+        return try await self.parsing(from: received.validPayload, for: received.subscription)
+    }
+    
+    func parsed(from request: Request, parsed: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+        return try await self.storing(from: request, for: parsed)
+    }
+    
+    func stored(from request: Request, stored: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+        try await self.hook(stored.videos, from: stored.subscription, on: request.db, with: request.client, logger: request.logger)
         return Response(status: .noContent)
     }
     
