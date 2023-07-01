@@ -25,6 +25,9 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateUsersTable())
     app.migrations.add(CreateDiscordWebhooksTable())
     
+    app.commands.use(Subscribe(), as: "subscribe")
+    app.commands.use(Unsubscribe(), as: "unsubscribe")
+    
 
     // register routes
     try routes(app)
