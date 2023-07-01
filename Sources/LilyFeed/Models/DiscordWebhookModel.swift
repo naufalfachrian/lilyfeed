@@ -50,4 +50,9 @@ final class DiscordWebhookModel: DiscordWebhook, Model, Content {
         self.createdAt = Date()
     }
     
+    func updatePublishAt(on db: Database) async throws {
+        self.lastPublishAt = Date()
+        try await self.save(on: db)
+    }
+    
 }

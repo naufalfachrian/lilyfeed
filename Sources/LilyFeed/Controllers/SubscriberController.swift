@@ -10,7 +10,12 @@ import Vapor
 import WebSubSubscriber
 
 
-struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
+struct SubscriberController:
+        SubscriberRouteCollection,
+        ParsingPayload,
+        StoringPayload,
+        FindingHook
+{
     
     let path: PathComponent = ""
     
@@ -27,72 +32,44 @@ struct SubscriberController: SubscriberRouteCollection, UseRequestParser {
             Payload received on LilyFeed's userspace from request: \(request.id)
             """
         )
-        switch try await self.receiving(request, for: received.subscription) {
-        case .success(let videos):
-            request.logger.info(
-                """
-                \(videos.count) saved from request: \(request.id)!
-                """
-            )
-            try await self.hook(videos, from: received.subscription, on: request.db, with: request.client, logger: request.logger)
-            break
-        case .failure(let reason):
-            request.logger.info(
-                """
-                \(reason.localizedDescription) occurred when parsing payload on request: \(request.id)!
-                """
-            )
-            break
-        }
-        return Response(status: .noContent)
+        return try await self.parsing(from: received.validPayload, for: received.subscription)
     }
     
-}
-
-
-fileprivate extension SubscriberController {
+    func parsed(from request: Request, parsed: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+        request.logger.info(
+            """
+            Payload parsed from request: \(request.id)
+            # of video entries: \(parsed.videos.count)
+            \(parsed.videos.ids(separator: ","))
+            """
+        )
+        return try await self.storing(from: request, for: parsed)
+    }
     
-    func hook(_ videos: [YoutubeVideo], from subscription: SubscriptionModel, on db: Database, with client: Client, logger: Logger? = nil) async throws {
-        guard let discordWebhook = try await DiscordWebhookModel.query(on: db)
-            .filter(\.$subscription.$id, .equal, subscription.id)
-            .first()
-        else {
-            return
-        }
-        for youtube in videos {
-            let content = "<@&\(discordWebhook.roleIDToMention)> \(youtube.videoTitle) \(youtube.videoURL)"
-            let response = try await client.post(
-                URI(string: "\(discordWebhook.webhookURL)?wait=true"),
-                content: WebhookRequest(
-                    content: content
-                )
-            )
-            logger?.info(
+    func stored(from request: Request, stored: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+        request.logger.info(
+            """
+            Payload stored from request: \(request.id)
+            # of video entries: \(stored.videos.count)
+            \(stored.videos.ids(separator: ","))
+            """
+        )
+        return try await self.findingHook(from: request, for: stored)
+    }
+    
+    func hooked(from request: Request, for hook: Hook) async throws -> Response {
+        switch hook {
+        case .found(let webhook, let videos):
+            request.logger.info(
                 """
-                Video: \(youtube.videoTitle)
-                Send to: \(discordWebhook.webhookURL)
+                Payload hooked from request: \(request.id)
+                via: \(webhook.webhookURL)
+                # of video entries: \(videos.count)
+                \(videos.ids(separator: ","))
                 """
             )
-            if response.status == .ok {
-                discordWebhook.lastPublishAt = Date()
-                try await discordWebhook.save(on: db)
-                logger?.info(
-                    """
-                    Video: \(youtube.videoTitle)
-                    Send to: \(discordWebhook.webhookURL)
-                    Success!
-                    """
-                )
-            } else {
-                logger?.info(
-                    """
-                    Video: \(youtube.videoTitle)
-                    Send to: \(discordWebhook.webhookURL)
-                    Failed with status: \(response.status)
-                    """
-                )
-            }
         }
+        return Response(status: .noContent)
     }
     
 }

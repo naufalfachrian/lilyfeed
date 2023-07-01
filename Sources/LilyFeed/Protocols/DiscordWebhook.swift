@@ -24,6 +24,8 @@ protocol DiscordWebhook {
         
     var lastPublishAt: Date? { get }
     
+    func updatePublishAt(on db: Database) async throws
+    
 }
 
 
