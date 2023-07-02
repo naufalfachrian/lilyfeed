@@ -24,6 +24,7 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateYoutubeVideosTable())
     app.migrations.add(CreateUsersTable())
     app.migrations.add(CreateDiscordWebhooksTable())
+    app.migrations.add(CreateSubscriptionTemplatesTable())
     
     app.commands.use(Subscribe(), as: "subscribe")
     app.commands.use(Unsubscribe(), as: "unsubscribe")
