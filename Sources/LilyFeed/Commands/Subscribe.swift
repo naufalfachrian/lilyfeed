@@ -9,9 +9,9 @@ import Vapor
 import WebSubSubscriber
 
 
-public struct Subscribe: Command {
+struct Subscribe: Command {
     
-    public struct Signature: CommandSignature {
+    struct Signature: CommandSignature {
         
         @Option(name: "topic", short: "t")
         var topic: String?
@@ -25,11 +25,7 @@ public struct Subscribe: Command {
         @Flag(name: "from-template")
         var fromTemplate: Bool
         
-        public init() { }
-        
     }
-    
-    public init() { }
     
     public var help: String = "Subscribe a topic"
     
