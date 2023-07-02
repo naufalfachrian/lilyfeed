@@ -27,6 +27,7 @@ public func configure(_ app: Application) async throws {
     
     app.commands.use(Subscribe(), as: "subscribe")
     app.commands.use(Unsubscribe(), as: "unsubscribe")
+    app.commands.use(CreateSubscriptionTemplate(), as: "create-subscription-template")
     
 
     // register routes
