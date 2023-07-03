@@ -23,4 +23,6 @@ public struct CreateUsersTable: AsyncMigration {
         try await database.schema("users").delete()
     }
     
+    public init() { }
+    
 }

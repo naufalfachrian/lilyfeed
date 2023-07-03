@@ -11,6 +11,8 @@ import WebSubSubscriber
 
 public struct SubscriptionController: RouteCollection {
     
+    public init() { }
+    
     public func boot(routes: RoutesBuilder) throws {
         let routesGroup = routes.grouped("subscriptions")
         routesGroup.get("", use: index)

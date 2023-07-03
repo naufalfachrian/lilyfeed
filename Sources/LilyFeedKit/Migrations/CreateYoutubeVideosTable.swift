@@ -29,4 +29,6 @@ public struct CreateYoutubeVideosTable: AsyncMigration {
         try await database.schema("youtube_videos").delete()
     }
     
+    public init() { }
+    
 }

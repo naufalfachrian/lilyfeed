@@ -27,4 +27,6 @@ public struct CreateSubscriptionTemplatesTable: AsyncMigration {
         try await database.schema("subscription_templates").delete()
     }
     
+    public init() { }
+    
 }

@@ -11,6 +11,8 @@ import Vapor
 
 public struct DiscordWebhookController: RouteCollection {
     
+    public init() { }
+    
     public func boot(routes: RoutesBuilder) throws {
         let protectedRoutes = routes
             .grouped([

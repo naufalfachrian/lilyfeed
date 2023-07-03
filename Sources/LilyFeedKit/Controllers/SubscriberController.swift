@@ -17,6 +17,8 @@ public struct SubscriberController:
         FindingHook
 {
     
+    public init() { }
+    
     public let path: PathComponent = ""
     
     public func boot(routes: RoutesBuilder) throws {

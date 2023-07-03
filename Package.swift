@@ -23,12 +23,21 @@ let package = Package(
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "WebSubSubscriber", package: "websub-subscriber"),
+                .target(name: "LilyFeedKit")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
                 // the `.unsafeFlags` construct required by SwiftPM, this flag is recommended for Release
                 // builds. See <https://www.swift.org/server/guides/building.html#building-for-production> for details.
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
+            ]
+        ),
+        .target(
+            name: "LilyFeedKit",
+            dependencies: [
+                .product(name: "Fluent", package: "fluent"),
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "WebSubSubscriber", package: "websub-subscriber"),
             ]
         ),
         .testTarget(name: "LilyFeedTests", dependencies: [

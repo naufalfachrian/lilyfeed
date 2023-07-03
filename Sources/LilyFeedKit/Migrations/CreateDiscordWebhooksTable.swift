@@ -26,4 +26,6 @@ public struct CreateDiscordWebhooksTable: AsyncMigration {
         try await database.schema("discord_webhooks").delete()
     }
     
+    public init() { }
+    
 }

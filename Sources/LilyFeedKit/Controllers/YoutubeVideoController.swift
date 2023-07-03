@@ -11,6 +11,8 @@ import WebSubSubscriber
 
 public struct YoutubeVideoController: RouteCollection {
     
+    public init() { }
+    
     public func boot(routes: RoutesBuilder) throws {
         let routesGroup = routes.grouped("youtube-videos")
         routesGroup.get("", use: index)
