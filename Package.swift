@@ -6,6 +6,12 @@ let package = Package(
     platforms: [
        .macOS(.v12)
     ],
+    products: [
+        .library(
+            name: "LilyFeedKit",
+            targets: ["LilyFeedKit"]
+        )
+    ],
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.76.0"),
