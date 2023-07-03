@@ -1,5 +1,5 @@
 //
-//  YoutubeVideoModel.swift
+//  YoutubeVideo.swift
 //  
 //
 //  Created by Bunga Mungil on 21/06/23.
@@ -10,6 +10,40 @@ import Fluent
 import Vapor
 import WebSubSubscriber
 
+
+protocol YoutubeVideo {
+    
+    var fromSubscription: Subscription? { get }
+    
+    var channelID: String { get }
+    
+    var channelName: String { get }
+    
+    var channelURL: String { get }
+    
+    var videoID: String { get }
+    
+    var videoTitle: String { get }
+    
+    var videoURL: String { get }
+    
+    var publishedAt: Date { get }
+    
+}
+
+
+// MARK: - Youtube Video Sequence
+
+extension Sequence where Element == any YoutubeVideo & Model {
+    
+    func ids(separator: String) -> String {
+        self.map { item in item.channelID }.joined(separator: separator)
+    }
+    
+}
+
+
+// MARK: - Youtube Video Model
 
 final class YoutubeVideoModel: YoutubeVideo, Model, Content {
     
@@ -71,6 +105,11 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
         self.publishedAt = publishedAt
         self.createdAt = Date()
     }
+    
+}
+
+
+extension YoutubeVideoModel {
     
     convenience init?(entry: AtomFeedEntry, with subscription: Subscription) {
         guard let yt = entry.yt else {

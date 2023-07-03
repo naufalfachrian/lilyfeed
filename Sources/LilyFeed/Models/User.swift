@@ -1,5 +1,5 @@
 //
-//  UserModel.swift
+//  User.swift
 //  
 //
 //  Created by Bunga Mungil on 21/06/23.
@@ -8,6 +8,15 @@
 import Fluent
 import Vapor
 
+
+protocol User: Authenticatable {
+    
+    var username: String { get }
+    
+}
+
+
+// MARK: - User Model
 
 final class UserModel: User, Model, Content {
     

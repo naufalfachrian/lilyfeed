@@ -68,6 +68,12 @@ struct Subscribe: Command {
                             request.0,
                             beforeSend: request.1
                         )
+                        context.console.print(
+                            """
+                            Request  : \(request.0)
+                            Response : \(response.status.code)
+                            """
+                        )
                     })
                 }
             })

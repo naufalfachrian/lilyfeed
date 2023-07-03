@@ -29,6 +29,8 @@ protocol DiscordWebhook {
 }
 
 
+// MARK: - Create Discord Webhook Request
+
 struct CreateDiscordWebhookRequest: Codable {
     
     let subscriptionID: UUID
@@ -64,6 +66,8 @@ extension CreateDiscordWebhookRequest {
 }
 
 
+// MARK: - Update Discord Webhook Request
+
 struct UpdateDiscordWebhookRequest: Codable {
     
     let webhookURL: String?
@@ -95,6 +99,56 @@ extension UpdateDiscordWebhookRequest {
         }
         try await updated.update(on: db)
         return updated
+    }
+    
+}
+
+
+// MARK: - Discord Webhook Model
+
+final class DiscordWebhookModel: DiscordWebhook, Model, Content {
+    
+    static var schema: String = "discord_webhooks"
+    
+    @ID(key: .id)
+    var id: UUID?
+    
+    @OptionalParent(key: "subscription_id")
+    var subscription: SubscriptionModel?
+    
+    @Field(key: "webhook_url")
+    var webhookURL: String
+    
+    @Field(key: "role_id_to_mention")
+    var roleIDToMention: String
+    
+    @Field(key: "last_publish_at")
+    var lastPublishAt: Date?
+    
+    @Field(key: "created_at")
+    var createdAt: Date?
+    
+    var forSubscription: Subscription? {
+        return self.subscription
+    }
+    
+    init() { }
+    
+    init(
+        subscriptionID: UUID?,
+        webhookURL: String,
+        roleIDToMention: String
+    ) {
+        self.$subscription.id = subscriptionID
+        self.webhookURL = webhookURL
+        self.roleIDToMention = roleIDToMention
+        self.lastPublishAt = nil
+        self.createdAt = Date()
+    }
+    
+    func updatePublishAt(on db: Database) async throws {
+        self.lastPublishAt = Date()
+        try await self.save(on: db)
     }
     
 }
