@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "LilyFeed",
+    name: "lily-feed",
     platforms: [
        .macOS(.v12)
     ],
