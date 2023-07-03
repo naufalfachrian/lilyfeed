@@ -10,7 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-protocol DiscordWebhook {
+public protocol DiscordWebhook {
     
     typealias CreateRequest = CreateDiscordWebhookRequest
     
@@ -31,7 +31,7 @@ protocol DiscordWebhook {
 
 // MARK: - Create Discord Webhook Request
 
-struct CreateDiscordWebhookRequest: Codable {
+public struct CreateDiscordWebhookRequest: Codable {
     
     let subscriptionID: UUID
     
@@ -53,7 +53,7 @@ extension CreateDiscordWebhookRequest: Content { }
 
 extension CreateDiscordWebhookRequest {
     
-    func create(on db: Database) async throws -> DiscordWebhookModel {
+    public func create(on db: Database) async throws -> DiscordWebhookModel {
         let created = DiscordWebhookModel(
             subscriptionID: self.subscriptionID,
             webhookURL: self.webhookURL,
@@ -68,7 +68,7 @@ extension CreateDiscordWebhookRequest {
 
 // MARK: - Update Discord Webhook Request
 
-struct UpdateDiscordWebhookRequest: Codable {
+public struct UpdateDiscordWebhookRequest: Codable {
     
     let webhookURL: String?
     
@@ -87,7 +87,7 @@ extension UpdateDiscordWebhookRequest: Content { }
 
 extension UpdateDiscordWebhookRequest {
     
-    func update(_ id: UUID, on db: Database) async throws -> DiscordWebhookModel {
+    public func update(_ id: UUID, on db: Database) async throws -> DiscordWebhookModel {
         guard let updated = try await DiscordWebhookModel.find(id, on: db) else {
             throw HTTPResponseStatus.notFound
         }
@@ -106,35 +106,35 @@ extension UpdateDiscordWebhookRequest {
 
 // MARK: - Discord Webhook Model
 
-final class DiscordWebhookModel: DiscordWebhook, Model, Content {
+public final class DiscordWebhookModel: DiscordWebhook, Model, Content {
     
-    static var schema: String = "discord_webhooks"
+    public static var schema: String = "discord_webhooks"
     
     @ID(key: .id)
-    var id: UUID?
+    public var id: UUID?
     
     @OptionalParent(key: "subscription_id")
-    var subscription: SubscriptionModel?
+    public var subscription: SubscriptionModel?
     
     @Field(key: "webhook_url")
-    var webhookURL: String
+    public var webhookURL: String
     
     @Field(key: "role_id_to_mention")
-    var roleIDToMention: String
+    public var roleIDToMention: String
     
     @Field(key: "last_publish_at")
-    var lastPublishAt: Date?
+    public var lastPublishAt: Date?
     
     @Field(key: "created_at")
-    var createdAt: Date?
+    public var createdAt: Date?
     
-    var forSubscription: Subscription? {
+    public var forSubscription: Subscription? {
         return self.subscription
     }
     
-    init() { }
+    public init() { }
     
-    init(
+    public init(
         subscriptionID: UUID?,
         webhookURL: String,
         roleIDToMention: String
@@ -146,7 +146,7 @@ final class DiscordWebhookModel: DiscordWebhook, Model, Content {
         self.createdAt = Date()
     }
     
-    func updatePublishAt(on db: Database) async throws {
+    public func updatePublishAt(on db: Database) async throws {
         self.lastPublishAt = Date()
         try await self.save(on: db)
     }

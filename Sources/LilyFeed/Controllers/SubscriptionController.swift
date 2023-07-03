@@ -9,9 +9,9 @@ import Vapor
 import WebSubSubscriber
 
 
-struct SubscriptionController: RouteCollection {
+public struct SubscriptionController: RouteCollection {
     
-    func boot(routes: RoutesBuilder) throws {
+    public func boot(routes: RoutesBuilder) throws {
         let routesGroup = routes.grouped("subscriptions")
         routesGroup.get("", use: index)
     }

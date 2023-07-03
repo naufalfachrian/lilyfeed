@@ -10,23 +10,23 @@ import Vapor
 import WebSubSubscriber
 
 
-struct SubscriberController:
+public struct SubscriberController:
         SubscriberRouteCollection,
         ParsingPayload,
         StoringPayload,
         FindingHook
 {
     
-    let path: PathComponent = ""
+    public let path: PathComponent = ""
     
-    func boot(routes: RoutesBuilder) throws {
+    public func boot(routes: RoutesBuilder) throws {
         try self.setup(routes: routes, middlewares: [
             UserBasicAuthenticator(),
             UserModel.guardMiddleware()
         ])
     }
     
-    func receiving(from request: Request, received: (validPayload: Request, subscription: SubscriptionModel)) async throws -> Response {
+    public func receiving(from request: Request, received: (validPayload: Request, subscription: SubscriptionModel)) async throws -> Response {
         request.logger.info(
             """
             Payload received on LilyFeed's userspace from request: \(request.id)

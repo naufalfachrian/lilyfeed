@@ -9,7 +9,7 @@ import Fluent
 import Vapor
 
 
-protocol User: Authenticatable {
+public protocol User: Authenticatable {
     
     var username: String { get }
     
@@ -18,22 +18,22 @@ protocol User: Authenticatable {
 
 // MARK: - User Model
 
-final class UserModel: User, Model, Content {
+public final class UserModel: User, Model, Content {
     
-    static var schema: String = "users"
+    public static var schema: String = "users"
     
     @ID(key: .id)
-    var id: UUID?
+    public var id: UUID?
     
     @Field(key: "username")
-    var username: String
+    public var username: String
     
     @Field(key: "password")
     var password: String
     
-    init() { }
+    public init() { }
     
-    init(
+    public init(
         username: String,
         password: String
     ) throws {

@@ -10,7 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-struct StorePayload {
+public struct StorePayload {
     
     let videos: [any YoutubeVideo & Model]
     
@@ -21,9 +21,9 @@ struct StorePayload {
 
 extension StorePayload: RequestHandler {
     
-    typealias ResultType = ([any YoutubeVideo & Model], SubscriptionModel)
+    public typealias ResultType = ([any YoutubeVideo & Model], SubscriptionModel)
     
-    func handle(on req: Request) async -> Result<([any YoutubeVideo & Model], SubscriptionModel), ErrorResponse> {
+    public func handle(on req: Request) async -> Result<([any YoutubeVideo & Model], SubscriptionModel), ErrorResponse> {
         do {
             for video in videos {
                 try await video.save(on: req.db)

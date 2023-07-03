@@ -10,7 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-protocol SubscriptionTemplate {
+public protocol SubscriptionTemplate {
     
     var name: String { get }
     
@@ -31,37 +31,37 @@ protocol SubscriptionTemplate {
 
 // MARK: - Subscription Template Model
 
-final class SubscriptionTemplateModel: SubscriptionTemplate, Model, Content {
+public final class SubscriptionTemplateModel: SubscriptionTemplate, Model, Content {
     
-    static var schema: String = "subscription_templates"
+    public static var schema: String = "subscription_templates"
     
     @ID(key: .id)
-    var id: UUID?
+    public var id: UUID?
     
     @Field(key: "name")
-    var name: String
+    public var name: String
     
     @Field(key: "topic")
-    var topic: String
+    public var topic: String
     
     @Field(key: "hub")
-    var hub: String?
+    public var hub: String?
     
     @Field(key: "lease_seconds")
-    var leaseSeconds: Int?
+    public var leaseSeconds: Int?
     
     @Field(key: "discord_webhook_url")
-    var discordWebhookURL: String
+    public var discordWebhookURL: String
     
     @Field(key: "discord_role_id_to_mention")
-    var discordRoleIDToMention: String
+    public var discordRoleIDToMention: String
     
     @Field(key: "is_active")
-    var isActive: Bool
+    public var isActive: Bool
     
-    init() { }
+    public init() { }
     
-    init(
+    public init(
         name: String,
         topic: String,
         hub: String?,
@@ -86,9 +86,9 @@ final class SubscriptionTemplateModel: SubscriptionTemplate, Model, Content {
 
 extension SubscriptionTemplateModel: CommandHandler {
     
-    typealias ResultType = SubscribeRequestUseCases
+    public typealias ResultType = SubscribeRequestUseCases
     
-    func handle(on ctx: CommandContext) async -> Result<SubscribeRequestUseCases, ErrorResponse> {
+    public func handle(on ctx: CommandContext) async -> Result<SubscribeRequestUseCases, ErrorResponse> {
         if let hub = self.hub {
             ctx.console.print(
                 """

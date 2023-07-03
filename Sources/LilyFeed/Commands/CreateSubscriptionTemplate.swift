@@ -9,9 +9,9 @@ import Vapor
 import WebSubSubscriber
 
 
-struct CreateSubscriptionTemplate: Command {
+public struct CreateSubscriptionTemplate: Command {
     
-    struct Signature: CommandSignature {
+    public struct Signature: CommandSignature {
         
         @Argument(name: "name")
         var name: String
@@ -31,11 +31,15 @@ struct CreateSubscriptionTemplate: Command {
         @Option(name: "lease-seconds")
         var leaseSeconds: Int?
         
+        public init() { }
+        
     }
     
-    var help: String = "Create subscription template"
+    public init() { }
     
-    func run(using context: CommandContext, signature: Signature) throws {
+    public var help: String = "Create subscription template"
+    
+    public func run(using context: CommandContext, signature: Signature) throws {
         let promise = context
             .application
             .eventLoopGroup
@@ -54,7 +58,7 @@ struct CreateSubscriptionTemplate: Command {
 
 extension SubscriptionTemplateModel {
     
-    convenience init(from signature: CreateSubscriptionTemplate.Signature) {
+    public convenience init(from signature: CreateSubscriptionTemplate.Signature) {
         self.init(
             name: signature.name,
             topic: signature.topic,

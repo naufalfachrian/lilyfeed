@@ -11,7 +11,7 @@ import Vapor
 import WebSubSubscriber
 
 
-enum ParsePayload {
+public enum ParsePayload {
     
     case mayDeliverYoutubeVideos([AtomFeedEntry], SubscriptionModel)
     
@@ -22,7 +22,7 @@ enum ParsePayload {
 
 extension ParsePayload {
     
-    init(_ payload: Request, for subscription: SubscriptionModel) {
+    public init(_ payload: Request, for subscription: SubscriptionModel) {
         guard let payloadData = payload.body.string?.data(using: .utf8) else {
             self = .deliverNothing
             return
@@ -45,9 +45,9 @@ extension ParsePayload {
 
 extension ParsePayload: RequestHandler {
     
-    typealias ResultType = ([any YoutubeVideo & Model], SubscriptionModel)
+    public typealias ResultType = ([any YoutubeVideo & Model], SubscriptionModel)
     
-    func handle(on req: Request) async -> Result<([any YoutubeVideo & Model], SubscriptionModel), WebSubSubscriber.ErrorResponse> {
+    public func handle(on req: Request) async -> Result<([any YoutubeVideo & Model], SubscriptionModel), WebSubSubscriber.ErrorResponse> {
         do {
             switch self {
             case .mayDeliverYoutubeVideos(let entries, let subscription):

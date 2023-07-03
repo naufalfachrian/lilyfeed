@@ -9,9 +9,9 @@ import Vapor
 import WebSubSubscriber
 
 
-struct YoutubeVideoController: RouteCollection {
+public struct YoutubeVideoController: RouteCollection {
     
-    func boot(routes: RoutesBuilder) throws {
+    public func boot(routes: RoutesBuilder) throws {
         let routesGroup = routes.grouped("youtube-videos")
         routesGroup.get("", use: index)
     }

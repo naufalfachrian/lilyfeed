@@ -8,9 +8,9 @@
 import Fluent
 
 
-struct CreateSubscriptionTemplatesTable: AsyncMigration {
+public struct CreateSubscriptionTemplatesTable: AsyncMigration {
     
-    func prepare(on database: Database) async throws {
+    public func prepare(on database: Database) async throws {
         try await database.schema("subscription_templates")
             .id()
             .field("name", .string, .required)
@@ -23,7 +23,7 @@ struct CreateSubscriptionTemplatesTable: AsyncMigration {
             .create()
     }
     
-    func revert(on database: Database) async throws {
+    public func revert(on database: Database) async throws {
         try await database.schema("subscription_templates").delete()
     }
     

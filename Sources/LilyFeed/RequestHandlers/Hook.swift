@@ -10,7 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-enum Hook {
+public enum Hook {
     
     case found(any DiscordWebhook & Model, [any YoutubeVideo & Model])
 
@@ -19,9 +19,9 @@ enum Hook {
 
 extension Hook: RequestHandler {
     
-    typealias ResultType = Hook
+    public typealias ResultType = Hook
     
-    func handle(on req: Request) async -> Result<Hook, ErrorResponse> {
+    public func handle(on req: Request) async -> Result<Hook, ErrorResponse> {
         do {
             switch self {
             case .found(let discordWebhook, let videos):

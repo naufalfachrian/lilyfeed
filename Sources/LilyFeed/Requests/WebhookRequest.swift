@@ -8,7 +8,7 @@
 import Vapor
 
 
-struct WebhookRequest {
+public struct WebhookRequest {
     
     let content: String
     

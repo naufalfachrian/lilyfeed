@@ -10,7 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-struct FindHook {
+public struct FindHook {
     
     let videos: [any YoutubeVideo & Model]
     
@@ -21,9 +21,9 @@ struct FindHook {
 
 extension FindHook: RequestHandler {
     
-    typealias ResultType = Hook
+    public typealias ResultType = Hook
     
-    func handle(on req: Request) async -> Result<Hook, ErrorResponse> {
+    public func handle(on req: Request) async -> Result<Hook, ErrorResponse> {
         do {
             guard let discordWebhook = try await DiscordWebhookModel.query(on: req.db)
                 .filter(\.$subscription.$id, .equal, self.subscription.id)

@@ -8,9 +8,9 @@
 import Fluent
 
 
-struct CreateDiscordWebhooksTable: AsyncMigration {
+public struct CreateDiscordWebhooksTable: AsyncMigration {
     
-    func prepare(on database: Database) async throws {
+    public func prepare(on database: Database) async throws {
         try await database.schema("discord_webhooks")
             .id()
             .field("subscription_id", .uuid, .references("subscriptions", "id"))
@@ -22,7 +22,7 @@ struct CreateDiscordWebhooksTable: AsyncMigration {
             .create()
     }
     
-    func revert(on database: Database) async throws {
+    public func revert(on database: Database) async throws {
         try await database.schema("discord_webhooks").delete()
     }
     

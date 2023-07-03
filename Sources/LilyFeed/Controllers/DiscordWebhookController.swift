@@ -8,9 +8,10 @@
 import Foundation
 import Vapor
 
-struct DiscordWebhookController: RouteCollection {
+
+public struct DiscordWebhookController: RouteCollection {
     
-    func boot(routes: RoutesBuilder) throws {
+    public func boot(routes: RoutesBuilder) throws {
         let protectedRoutes = routes
             .grouped([
                 UserBasicAuthenticator(),

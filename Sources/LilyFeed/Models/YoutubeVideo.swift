@@ -11,7 +11,7 @@ import Vapor
 import WebSubSubscriber
 
 
-protocol YoutubeVideo {
+public protocol YoutubeVideo {
     
     var fromSubscription: Subscription? { get }
     
@@ -36,7 +36,7 @@ protocol YoutubeVideo {
 
 extension Sequence where Element == any YoutubeVideo & Model {
     
-    func ids(separator: String) -> String {
+    public func ids(separator: String) -> String {
         self.map { item in item.channelID }.joined(separator: separator)
     }
     
@@ -45,47 +45,47 @@ extension Sequence where Element == any YoutubeVideo & Model {
 
 // MARK: - Youtube Video Model
 
-final class YoutubeVideoModel: YoutubeVideo, Model, Content {
+public final class YoutubeVideoModel: YoutubeVideo, Model, Content {
     
-    static let schema: String = "youtube_videos"
+    public static let schema: String = "youtube_videos"
     
     @ID(key: .id)
-    var id: UUID?
+    public var id: UUID?
     
     @OptionalParent(key: "subscription_id")
-    var subscription: SubscriptionModel?
+    public var subscription: SubscriptionModel?
     
     @Field(key: "channel_id")
-    var channelID: String
+    public var channelID: String
     
     @Field(key: "channel_name")
-    var channelName: String
+    public var channelName: String
     
     @Field(key: "channel_url")
-    var channelURL: String
+    public var channelURL: String
     
     @Field(key: "video_id")
-    var videoID: String
+    public var videoID: String
     
     @Field(key: "video_title")
-    var videoTitle: String
+    public var videoTitle: String
     
     @Field(key: "video_url")
-    var videoURL: String
+    public var videoURL: String
     
     @Field(key: "published_at")
-    var publishedAt: Date
+    public var publishedAt: Date
     
     @Field(key: "created_at")
-    var createdAt: Date
+    public var createdAt: Date
     
-    var fromSubscription: Subscription? {
+    public var fromSubscription: Subscription? {
         return self.subscription
     }
     
-    init() { }
+    public init() { }
     
-    init(
+    public init(
         subscription: SubscriptionModel?,
         channelID: String,
         channelName: String,
@@ -111,7 +111,7 @@ final class YoutubeVideoModel: YoutubeVideo, Model, Content {
 
 extension YoutubeVideoModel {
     
-    convenience init?(entry: AtomFeedEntry, with subscription: Subscription) {
+    public convenience init?(entry: AtomFeedEntry, with subscription: Subscription) {
         guard let yt = entry.yt else {
             return nil
         }
