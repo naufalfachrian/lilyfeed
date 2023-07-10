@@ -31,6 +31,7 @@ public func configure(_ app: Application) async throws {
     app.commands.use(Unsubscribe(), as: "unsubscribe")
     app.commands.use(CreateSubscriptionTemplate(), as: "create-subscription-template")
     
+    app.subscriber.host(Environment.get("WEB_HOST")!)
 
     // register routes
     try routes(app)

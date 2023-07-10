@@ -18,7 +18,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
         .package(url: "https://github.com/vapor/fluent-mysql-driver.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
-        .package(url: "https://github.com/WebSubKit/websub-subscriber.git", from: "0.12.3"),
+        .package(url: "https://github.com/WebSubKit/websub-subscriber.git", from: "0.13.2"),
     ],
     targets: [
         .executableTarget(
