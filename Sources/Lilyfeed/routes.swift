@@ -1,5 +1,5 @@
 import Fluent
-import LilyFeedKit
+import LilyfeedKit
 import Vapor
 import WebSubSubscriber
 

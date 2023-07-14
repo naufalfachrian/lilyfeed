@@ -10,7 +10,7 @@ import Vapor
 
 public struct UserBasicAuthenticator: AsyncBasicAuthenticator {
     
-    typealias User = LilyFeedKit.User
+    typealias User = LilyfeedKit.User
     
     public func authenticate(basic: BasicAuthorization, for request: Request) async throws {
         if let user = try await (

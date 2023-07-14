@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "lily-feed",
+    name: "lilyfeed",
     platforms: [
        .macOS(.v12)
     ],
     products: [
         .library(
-            name: "LilyFeedKit",
-            targets: ["LilyFeedKit"]
+            name: "LilyfeedKit",
+            targets: ["LilyfeedKit"]
         )
     ],
     dependencies: [
@@ -22,14 +22,14 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "LilyFeed",
+            name: "Lilyfeed",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentMySQLDriver", package: "fluent-mysql-driver"),
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "WebSubSubscriber", package: "websub-subscriber"),
-                .target(name: "LilyFeedKit")
+                .target(name: "LilyfeedKit")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
@@ -39,15 +39,15 @@ let package = Package(
             ]
         ),
         .target(
-            name: "LilyFeedKit",
+            name: "LilyfeedKit",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "WebSubSubscriber", package: "websub-subscriber"),
             ]
         ),
-        .testTarget(name: "LilyFeedTests", dependencies: [
-            .target(name: "LilyFeed"),
+        .testTarget(name: "LilyfeedTests", dependencies: [
+            .target(name: "Lilyfeed"),
             .product(name: "XCTVapor", package: "vapor"),
         ])
     ]

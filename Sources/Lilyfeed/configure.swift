@@ -2,7 +2,7 @@ import NIOSSL
 import Fluent
 import FluentMySQLDriver
 import Leaf
-import LilyFeedKit
+import LilyfeedKit
 import Vapor
 import WebSubSubscriber
 
@@ -27,7 +27,7 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateDiscordWebhooksTable())
     app.migrations.add(CreateSubscriptionTemplatesTable())
     
-    app.commands.use(LilyFeedKit.Subscribe(), as: "subscribe")
+    app.commands.use(LilyfeedKit.Subscribe(), as: "subscribe")
     app.commands.use(Unsubscribe(), as: "unsubscribe")
     app.commands.use(CreateSubscriptionTemplate(), as: "create-subscription-template")
     
