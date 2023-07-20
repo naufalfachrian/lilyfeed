@@ -7,6 +7,7 @@
 
 import Vapor
 import WebSubSubscriber
+import Fluent
 
 
 public struct Subscribe: Command {
@@ -55,6 +56,7 @@ public struct Subscribe: Command {
             .filter(\.$isActive, .equal, true)
             .all()
         context.console.print("\(templates.count) templates found.")
+        try await truncateDiscordWebhooks(on: context.application.db)
         for template in templates {
             try await template.handle(on: context, then: { ctx, useCase in
                 try await useCase.handle(on: context) { ctx, subscription in
@@ -82,6 +84,10 @@ public struct Subscribe: Command {
                 }
             })
         }
+    }
+
+    func truncateDiscordWebhooks(on db: Database) async throws {
+        try await DiscordWebhookModel.query(on: db).delete()
     }
     
 }
