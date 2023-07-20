@@ -1,0 +1,52 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Debug LilyFeed",
+            "program": "${workspaceFolder:lilyfeed}/.build/debug/LilyFeed",
+            "args": [],
+            "cwd": "${workspaceFolder:lilyfeed}",
+            "preLaunchTask": "swift: Build Debug LilyFeed"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Release LilyFeed",
+            "program": "${workspaceFolder:lilyfeed}/.build/release/LilyFeed",
+            "args": [],
+            "cwd": "${workspaceFolder:lilyfeed}",
+            "preLaunchTask": "swift: Build Release LilyFeed"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Debug Lilyfeed",
+            "program": "${workspaceFolder:lilyfeed}/.build/debug/Lilyfeed",
+            "args": [],
+            "cwd": "${workspaceFolder:lilyfeed}",
+            "preLaunchTask": "swift: Build Debug Lilyfeed"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Release Lilyfeed",
+            "program": "${workspaceFolder:lilyfeed}/.build/release/Lilyfeed",
+            "args": [],
+            "cwd": "${workspaceFolder:lilyfeed}",
+            "preLaunchTask": "swift: Build Release Lilyfeed"
+        }
+    ]
+}
