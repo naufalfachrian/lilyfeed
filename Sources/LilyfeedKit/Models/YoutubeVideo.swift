@@ -32,6 +32,17 @@ public protocol YoutubeVideo {
 }
 
 
+extension YoutubeVideo {
+
+    var wasPublishedLast24Hours: Bool {
+        let currentDate = Date()
+        let twentyFourHoursAgo = currentDate.addingTimeInterval(-24 * 60 * 60)
+        return self.publishedAt >= twentyFourHoursAgo && self.publishedAt <= currentDate
+    }
+
+}
+
+
 // MARK: - Youtube Video Sequence
 
 extension Sequence where Element == any YoutubeVideo & Model {

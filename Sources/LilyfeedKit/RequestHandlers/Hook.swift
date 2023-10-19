@@ -27,6 +27,16 @@ extension Hook: RequestHandler {
             case .found(let discordWebhook, let videos):
                 for youtube in videos {
                     let content = "<@&\(discordWebhook.roleIDToMention)> \(youtube.videoTitle) \(youtube.videoURL)"
+                    if !youtube.wasPublishedLast24Hours {
+                        req.logger.info(
+                            """
+                            Video: \(youtube.videoTitle)
+                            Send to: \(discordWebhook.webhookURL)
+                            Not delivered! Video was published more than 24 hours ago.
+                            """
+                        )
+                        continue
+                    }
                     let response = try await req.client.post(
                         URI(string: "\(discordWebhook.webhookURL)?wait=true"),
                         content: WebhookRequest(
@@ -48,7 +58,6 @@ extension Hook: RequestHandler {
                             Success!
                             """
                         )
-                        return .success(self)
                     } else {
                         req.logger.info(
                             """
@@ -59,7 +68,7 @@ extension Hook: RequestHandler {
                         )
                     }
                 }
-                return .failure(.init(code: .noContent))
+                return .success(self)
             }
         } catch {
             return .failure(.init(code: .noContent))
