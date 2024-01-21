@@ -5,6 +5,7 @@ import Leaf
 import LilyfeedKit
 import Vapor
 import WebSubSubscriber
+import QueuesRedisDriver
 
 // configures your application
 public func configure(_ app: Application) async throws {
@@ -32,6 +33,10 @@ public func configure(_ app: Application) async throws {
     app.commands.use(CreateSubscriptionTemplate(), as: "create-subscription-template")
     
     app.subscriber.host(Environment.get("WEB_HOST")!)
+    try app.queues.use(.redis(url: Environment.get("REDIS_HOST")!))
+    
+    let receiveYoutubeVideoJob = ReceiveYoutubeVideoJob()
+    app.queues.add(receiveYoutubeVideoJob)
 
     // register routes
     try routes(app)

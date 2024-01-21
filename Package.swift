@@ -19,6 +19,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-mysql-driver.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
         .package(url: "https://github.com/WebSubKit/websub-subscriber.git", from: "0.13.3"),
+        .package(url: "https://github.com/vapor/queues-redis-driver.git", from: "1.1.1"),
     ],
     targets: [
         .executableTarget(
@@ -29,6 +30,7 @@ let package = Package(
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "WebSubSubscriber", package: "websub-subscriber"),
+                .product(name: "QueuesRedisDriver", package: "queues-redis-driver"),
                 .target(name: "LilyfeedKit")
             ],
             swiftSettings: [
