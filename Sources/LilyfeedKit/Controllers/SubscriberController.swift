@@ -34,6 +34,13 @@ public struct SubscriberController:
             Payload received on LilyFeed's userspace from request: \(request.id)
             """
         )
+        try await request.queue.dispatch(
+            ReceivingPayloadJob.self,
+            .init(
+                data: received.validPayload.body.data,
+                subscription: received.subscription
+            )
+        )
         return try await self.parsing(from: received.validPayload, for: received.subscription)
     }
     

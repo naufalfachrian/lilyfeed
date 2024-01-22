@@ -27,7 +27,11 @@ extension ParsePayload {
             self = .deliverNothing
             return
         }
-        switch FeedParser(data: payloadData).parse() {
+        self = .init(payloadData, for: subscription)
+    }
+    
+    public init(_ data: Data, for subscription: SubscriptionModel) {
+        switch FeedParser(data: data).parse() {
         case .success(let feed):
             let entries = feed.atomFeed?.entries ?? []
             if entries.isEmpty {
