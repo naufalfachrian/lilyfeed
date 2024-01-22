@@ -33,7 +33,7 @@ public struct ReceivingPayloadJob: AsyncJob {
             context.logger.info("Failed to read bytes on payload data")
             return
         }
-        context.logger.trace(String(data: data, encoding: .utf8))
+        context.logger.trace("\(String(data: data, encoding: .utf8) ?? "N/A")")
         switch ParsePayload(data, for: payload.subscription) {
         case .deliverNothing:
             context.logger.info("Payload from subscription : \(payload.subscription.topic) deliver nothing")
