@@ -44,7 +44,7 @@ public struct SubscriberController:
         return try await self.parsing(from: received.validPayload, for: received.subscription)
     }
     
-    func parsed(from request: Request, parsed: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+    func parsed(from request: Request, parsed: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
         request.logger.info(
             """
             Payload parsed from request: \(request.id)
@@ -53,12 +53,12 @@ public struct SubscriberController:
             """
         )
         parsed.videos.forEach { video in
-            _ = request.queue.dispatch(ReceiveYoutubeVideoJob.self, .init(from: video))
+            _ = request.queue.dispatch(ReceiveYouTubeVideoJob.self, .init(from: video))
         }
         return try await self.storing(from: request, for: parsed)
     }
     
-    func stored(from request: Request, stored: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+    func stored(from request: Request, stored: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
         request.logger.info(
             """
             Payload stored from request: \(request.id)

@@ -1,6 +1,6 @@
 //
-//  YoutubeVideo.swift
-//  
+//  YouTubeVideo.swift
+//
 //
 //  Created by Bunga Mungil on 21/06/23.
 //
@@ -11,7 +11,7 @@ import Vapor
 import WebSubSubscriber
 
 
-public protocol YoutubeVideo {
+public protocol YouTubeVideo {
     
     var fromSubscription: Subscription? { get }
     
@@ -32,7 +32,7 @@ public protocol YoutubeVideo {
 }
 
 
-extension YoutubeVideo {
+extension YouTubeVideo {
 
     var wasPublishedLast24Hours: Bool {
         let currentDate = Date()
@@ -43,9 +43,9 @@ extension YoutubeVideo {
 }
 
 
-// MARK: - Youtube Video Sequence
+// MARK: - YouTube Video Sequence
 
-extension Sequence where Element == any YoutubeVideo & Model {
+extension Sequence where Element == any YouTubeVideo & Model {
     
     public func ids(separator: String) -> String {
         self.map { item in item.channelID }.joined(separator: separator)
@@ -54,9 +54,9 @@ extension Sequence where Element == any YoutubeVideo & Model {
 }
 
 
-// MARK: - Youtube Video Model
+// MARK: - YouTube Video Model
 
-public final class YoutubeVideoModel: YoutubeVideo, Model, Content {
+public final class YouTubeVideoModel: YouTubeVideo, Model, Content {
     
     public static let schema: String = "youtube_videos"
     
@@ -120,7 +120,7 @@ public final class YoutubeVideoModel: YoutubeVideo, Model, Content {
 }
 
 
-extension YoutubeVideoModel {
+extension YouTubeVideoModel {
     
     public convenience init?(entry: AtomFeedEntry, with subscription: Subscription) {
         guard let yt = entry.yt else {

@@ -12,16 +12,16 @@ import WebSubSubscriber
 
 protocol StoringPayload {
     
-    func storing(from request: Request, for payload: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
+    func storing(from request: Request, for payload: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
     
-    func stored(from request: Request, stored: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
+    func stored(from request: Request, stored: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
     
 }
 
 
 extension StoringPayload {
     
-    func storing(from request: Request, for payload: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+    func storing(from request: Request, for payload: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
         return try await StorePayload(
             videos: payload.videos,
             subscription: payload.subscription

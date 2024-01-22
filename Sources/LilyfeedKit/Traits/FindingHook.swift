@@ -12,7 +12,7 @@ import WebSubSubscriber
 
 protocol FindingHook {
     
-    func findingHook(from request: Request, for payload: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
+    func findingHook(from request: Request, for payload: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
     
     func hook(from request: Request, for hook: Hook) async throws -> Response
     
@@ -23,7 +23,7 @@ protocol FindingHook {
 
 extension FindingHook {
     
-    func findingHook(from request: Request, for payload: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
+    func findingHook(from request: Request, for payload: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
         return try await FindHook(
             videos: payload.videos,
             subscription: payload.subscription

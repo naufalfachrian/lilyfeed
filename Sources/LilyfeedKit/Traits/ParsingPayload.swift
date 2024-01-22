@@ -14,7 +14,7 @@ protocol ParsingPayload {
     
     func parsing(from request: Request, for subscription: SubscriptionModel) async throws -> Response
     
-    func parsed(from request: Request, parsed: (videos: [any YoutubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
+    func parsed(from request: Request, parsed: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response
     
 }
 

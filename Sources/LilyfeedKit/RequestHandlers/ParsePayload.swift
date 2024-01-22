@@ -13,7 +13,7 @@ import WebSubSubscriber
 
 public enum ParsePayload {
     
-    case mayDeliverYoutubeVideos([AtomFeedEntry], SubscriptionModel)
+    case mayDeliverYouTubeVideos([AtomFeedEntry], SubscriptionModel)
     
     case deliverNothing
     
@@ -37,7 +37,7 @@ extension ParsePayload {
             if entries.isEmpty {
                 self = .deliverNothing
             } else {
-                self = .mayDeliverYoutubeVideos(entries, subscription)
+                self = .mayDeliverYouTubeVideos(entries, subscription)
             }
         case .failure:
             self = .deliverNothing
@@ -49,14 +49,14 @@ extension ParsePayload {
 
 extension ParsePayload: RequestHandler {
     
-    public typealias ResultType = ([any YoutubeVideo & Model], SubscriptionModel)
+    public typealias ResultType = ([any YouTubeVideo & Model], SubscriptionModel)
     
-    public func handle(on req: Request) async -> Result<([any YoutubeVideo & Model], SubscriptionModel), WebSubSubscriber.ErrorResponse> {
+    public func handle(on req: Request) async -> Result<([any YouTubeVideo & Model], SubscriptionModel), WebSubSubscriber.ErrorResponse> {
         do {
             switch self {
-            case .mayDeliverYoutubeVideos(let entries, let subscription):
+            case .mayDeliverYouTubeVideos(let entries, let subscription):
                 return .success((
-                    try await entries.asYoutubeVidoes(
+                    try await entries.asYouTubeVidoes(
                         on: req.db,
                         for: subscription
                     ),
@@ -75,24 +75,24 @@ extension ParsePayload: RequestHandler {
 
 fileprivate extension Sequence where Element == AtomFeedEntry {
     
-    func asYoutubeVidoes(on db: Database, for subscription: Subscription) async throws -> [any YoutubeVideo & Model] {
-        var result: [any YoutubeVideo & Model] = []
+    func asYouTubeVidoes(on db: Database, for subscription: Subscription) async throws -> [any YouTubeVideo & Model] {
+        var result: [any YouTubeVideo & Model] = []
         for item in self {
             guard let videoID = item.yt?.videoID else {
                 continue
             }
-            if try await YoutubeVideoModel.query(on: db)
+            if try await YouTubeVideoModel.query(on: db)
                 .filter(\.$videoID, .equal, videoID)
                 .count() > 0 {
                 continue
             }
-            guard let youtubeVideoModel = YoutubeVideoModel(
+            guard let youTubeVideoModel = YouTubeVideoModel(
                 entry: item,
                 with: subscription
             ) else {
                 continue
             }
-            result.append(youtubeVideoModel)
+            result.append(youTubeVideoModel)
         }
         return result
     }

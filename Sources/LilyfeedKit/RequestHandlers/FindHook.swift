@@ -12,7 +12,7 @@ import WebSubSubscriber
 
 public struct FindHook {
     
-    let videos: [any YoutubeVideo & Model]
+    let videos: [any YouTubeVideo & Model]
     
     let subscription: SubscriptionModel
     

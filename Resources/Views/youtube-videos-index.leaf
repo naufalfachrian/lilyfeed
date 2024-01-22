@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <h1>Youtube Videos</h1>
+  <h1>YouTube Videos</h1>
   
   <table>
   <thead>
@@ -20,19 +20,19 @@
     </tr>
   </thead>
   <tbody>
-    #for(youtubeVideo in youtubeVideos):
+    #for(youTubeVideo in youTubeVideos):
     <tr>
-      <td>#(youtubeVideo.subscription.id)</td>
-      <td>#(youtubeVideo.channelName)</td>
+      <td>#(youTubeVideo.subscription.id)</td>
+      <td>#(youTubeVideo.channelName)</td>
       <td>
-        <a href="#(youtubeVideo.channelURL)">
-          #(youtubeVideo.channelURL)
+        <a href="#(youTubeVideo.channelURL)">
+          #(youTubeVideo.channelURL)
         </a>
       </td>
-      <td>#(youtubeVideo.videoTitle)</td>
+      <td>#(youTubeVideo.videoTitle)</td>
       <td>
-        <a href="#(youtubeVideo.videoURL)">
-          #(youtubeVideo.videoURL)
+        <a href="#(youTubeVideo.videoURL)">
+          #(youTubeVideo.videoURL)
         </a>
       </td>
     </tr>

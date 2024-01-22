@@ -23,7 +23,7 @@ public func configure(_ app: Application) async throws {
 
     app.views.use(.leaf)
     app.migrations.add(CreateSubscriptionsTable())
-    app.migrations.add(CreateYoutubeVideosTable())
+    app.migrations.add(CreateYouTubeVideosTable())
     app.migrations.add(CreateUsersTable())
     app.migrations.add(CreateDiscordWebhooksTable())
     app.migrations.add(CreateSubscriptionTemplatesTable())
@@ -35,8 +35,8 @@ public func configure(_ app: Application) async throws {
     app.subscriber.host(Environment.get("WEB_HOST")!)
     try app.queues.use(.redis(url: Environment.get("REDIS_HOST")!))
     
-    let receiveYoutubeVideoJob = ReceiveYoutubeVideoJob()
-    app.queues.add(receiveYoutubeVideoJob)
+    let receiveYouTubeVideoJob = ReceiveYouTubeVideoJob()
+    app.queues.add(receiveYouTubeVideoJob)
     
     app.queues.add(ReceivingPayloadJob())
 

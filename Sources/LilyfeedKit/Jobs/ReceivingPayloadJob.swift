@@ -37,13 +37,13 @@ public struct ReceivingPayloadJob: AsyncJob {
         switch ParsePayload(data, for: payload.subscription) {
         case .deliverNothing:
             context.logger.info("Payload from subscription : \(payload.subscription.topic) deliver nothing")
-        case .mayDeliverYoutubeVideos(let entries, let subscription):
+        case .mayDeliverYouTubeVideos(let entries, let subscription):
             context.logger.info("Payload from subscription : \(subscription.topic) contains \(entries.count) entries")
         }
     }
     
     public func error(_ context: QueueContext, _ error: Error, _ payload: ReceivedPayload) async throws {
-        context.logger.error("Error on job ReceiveYoutubeVideoJob -> \(error.localizedDescription)")
+        context.logger.error("Error on job ReceiveYouTubeVideoJob -> \(error.localizedDescription)")
     }
     
 }

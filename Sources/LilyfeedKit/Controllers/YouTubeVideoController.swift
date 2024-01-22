@@ -1,6 +1,6 @@
 //
-//  YoutubeVideoController.swift
-//  
+//  YouTubeVideoController.swift
+//
 //
 //  Created by Bunga Mungil on 21/06/23.
 //
@@ -9,7 +9,7 @@ import Vapor
 import WebSubSubscriber
 
 
-public struct YoutubeVideoController: RouteCollection {
+public struct YouTubeVideoController: RouteCollection {
     
     public init() { }
     
@@ -21,7 +21,7 @@ public struct YoutubeVideoController: RouteCollection {
     func index(req: Request) async throws -> View {
         return try await req.view
             .render("youtube-videos-index", [
-                "youtubeVideos": YoutubeVideoModel.query(on: req.db).paginate(for: req).items
+                "youTubeVideos": YouTubeVideoModel.query(on: req.db).paginate(for: req).items
             ])
     }
     

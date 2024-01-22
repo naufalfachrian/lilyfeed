@@ -1,5 +1,5 @@
 //
-//  CreateYoutubeVideosTable.swift
+//  CreateYouTubeVideosTable.swift
 //  
 //
 //  Created by Bunga Mungil on 21/06/23.
@@ -8,7 +8,7 @@
 import Fluent
 
 
-public struct CreateYoutubeVideosTable: AsyncMigration {
+public struct CreateYouTubeVideosTable: AsyncMigration {
     
     public func prepare(on database: Database) async throws {
         try await database.schema("youtube_videos")

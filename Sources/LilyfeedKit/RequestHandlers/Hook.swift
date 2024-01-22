@@ -12,7 +12,7 @@ import WebSubSubscriber
 
 public enum Hook {
     
-    case found(any DiscordWebhook & Model, [any YoutubeVideo & Model])
+    case found(any DiscordWebhook & Model, [any YouTubeVideo & Model])
 
 }
 
@@ -25,12 +25,12 @@ extension Hook: RequestHandler {
         do {
             switch self {
             case .found(let discordWebhook, let videos):
-                for youtube in videos {
-                    let content = "<@&\(discordWebhook.roleIDToMention)> \(youtube.videoTitle) \(youtube.videoURL)"
-                    if !youtube.wasPublishedLast24Hours {
+                for youTube in videos {
+                    let content = "<@&\(discordWebhook.roleIDToMention)> \(youTube.videoTitle) \(youTube.videoURL)"
+                    if !youTube.wasPublishedLast24Hours {
                         req.logger.info(
                             """
-                            Video: \(youtube.videoTitle)
+                            Video: \(youTube.videoTitle)
                             Send to: \(discordWebhook.webhookURL)
                             Not delivered! Video was published more than 24 hours ago.
                             """
@@ -45,7 +45,7 @@ extension Hook: RequestHandler {
                     )
                     req.logger.info(
                         """
-                        Video: \(youtube.videoTitle)
+                        Video: \(youTube.videoTitle)
                         Send to: \(discordWebhook.webhookURL)
                         """
                     )
@@ -53,7 +53,7 @@ extension Hook: RequestHandler {
                         try await discordWebhook.updatePublishAt(on: req.db)
                         req.logger.info(
                             """
-                            Video: \(youtube.videoTitle)
+                            Video: \(youTube.videoTitle)
                             Send to: \(discordWebhook.webhookURL)
                             Success!
                             """
@@ -61,7 +61,7 @@ extension Hook: RequestHandler {
                     } else {
                         req.logger.info(
                             """
-                            Video: \(youtube.videoTitle)
+                            Video: \(youTube.videoTitle)
                             Send to: \(discordWebhook.webhookURL)
                             Failed with status: \(response.status)
                             """

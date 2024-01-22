@@ -12,7 +12,7 @@ import WebSubSubscriber
 
 public struct StorePayload {
     
-    let videos: [any YoutubeVideo & Model]
+    let videos: [any YouTubeVideo & Model]
     
     let subscription: SubscriptionModel
     
@@ -21,9 +21,9 @@ public struct StorePayload {
 
 extension StorePayload: RequestHandler {
     
-    public typealias ResultType = ([any YoutubeVideo & Model], SubscriptionModel)
+    public typealias ResultType = ([any YouTubeVideo & Model], SubscriptionModel)
     
-    public func handle(on req: Request) async -> Result<([any YoutubeVideo & Model], SubscriptionModel), ErrorResponse> {
+    public func handle(on req: Request) async -> Result<([any YouTubeVideo & Model], SubscriptionModel), ErrorResponse> {
         do {
             for video in videos {
                 try await video.save(on: req.db)
