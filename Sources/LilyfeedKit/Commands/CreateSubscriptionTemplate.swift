@@ -9,7 +9,7 @@ import Vapor
 import WebSubSubscriber
 
 
-public struct CreateSubscriptionTemplate: Command {
+public struct CreateSubscriptionTemplate: AsyncCommand {
     
     public struct Signature: CommandSignature {
         
@@ -39,18 +39,10 @@ public struct CreateSubscriptionTemplate: Command {
     
     public var help: String = "Create subscription template"
     
-    public func run(using context: CommandContext, signature: Signature) throws {
-        let promise = context
-            .application
-            .eventLoopGroup
-            .next()
-            .makePromise(of: Void.self)
-        promise.completeWithTask {
-            let template = SubscriptionTemplateModel(from: signature)
-            try await template.save(on: context.application.db)
-            context.console.print("Template \(template.name) created and saved!")
-        }
-        try promise.futureResult.wait()
+    public func run(using context: CommandContext, signature: Signature) async throws {
+        let template = SubscriptionTemplateModel(from: signature)
+        try await template.save(on: context.application.db)
+        context.console.print("Template \(template.name) created and saved!")
     }
     
 }

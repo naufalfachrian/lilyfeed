@@ -28,9 +28,9 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateDiscordWebhooksTable())
     app.migrations.add(CreateSubscriptionTemplatesTable())
     
-    app.commands.use(LilyfeedKit.Subscribe(), as: "subscribe")
+    app.asyncCommands.use(LilyfeedKit.Subscribe(), as: "subscribe")
     app.commands.use(Unsubscribe(), as: "unsubscribe")
-    app.commands.use(CreateSubscriptionTemplate(), as: "create-subscription-template")
+    app.asyncCommands.use(CreateSubscriptionTemplate(), as: "create-subscription-template")
     
     app.subscriber.host(Environment.get("WEB_HOST")!)
     try app.queues.use(.redis(url: Environment.get("REDIS_HOST")!))

@@ -10,7 +10,7 @@ import WebSubSubscriber
 import Fluent
 
 
-public struct Subscribe: Command {
+public struct Subscribe: AsyncCommand {
     
     public struct Signature: CommandSignature {
         
@@ -34,20 +34,12 @@ public struct Subscribe: Command {
     
     public var help: String = "Subscribe a topic"
     
-    public func run(using context: CommandContext, signature: Signature) throws {
-        let promise = context
-            .application
-            .eventLoopGroup
-            .next()
-            .makePromise(of: Void.self)
-        promise.completeWithTask {
-            if signature.fromTemplate {
-                try await fromTemplate(using: context, signature: signature)
-            } else {
-                try await signature.handle(on: context, then: self.subscribing)
-            }
+    public func run(using context: CommandContext, signature: Signature) async throws {
+        if signature.fromTemplate {
+            try await fromTemplate(using: context, signature: signature)
+        } else {
+            try await signature.handle(on: context, then: self.subscribing)
         }
-        try promise.futureResult.wait()
     }
     
     func fromTemplate(using context: CommandContext, signature: Signature) async throws {
