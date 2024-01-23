@@ -1,5 +1,5 @@
 //
-//  ReceivingYouTubeVideosJob.swift
+//  StoringYouTubeVideosJob.swift
 //
 //
 //  Created by Bunga Mungil on 22/01/24.
@@ -10,7 +10,7 @@ import Vapor
 import Queues
 
 
-public struct ReceivingYouTubeVideosJob: AsyncJob {
+public struct StoringYouTubeVideosJob: AsyncJob {
     
     public init() {
     }
@@ -18,8 +18,9 @@ public struct ReceivingYouTubeVideosJob: AsyncJob {
     public typealias Payload = [YouTubeVideoModel]
     
     public func dequeue(_ context: Queues.QueueContext, _ payload: [YouTubeVideoModel]) async throws {
-        payload.forEach { youTubeVideo in
-            context.logger.info("Received YouTube Video -> \(youTubeVideo.videoURL)")
+        context.logger.info("Storing YouTube Videos to storage -> \(payload.map { item in item.videoID }.joined(by: ", "))")
+        for youTubeVideo in payload {
+            try await youTubeVideo.save(on: context.application.db)
         }
     }
     

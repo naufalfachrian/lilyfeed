@@ -39,7 +39,7 @@ public func configure(_ app: Application) async throws {
     app.queues.add(receiveYouTubeVideoJob)
     
     app.queues.add(ReceivingPayloadJob())
-    app.queues.add(ReceivingYouTubeVideosJob())
+    app.queues.add(StoringYouTubeVideosJob())
     app.queues.add(DeletingYouTubeVideosJob())
 
     // register routes

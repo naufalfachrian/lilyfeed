@@ -40,7 +40,7 @@ public struct ReceivingPayloadJob: AsyncJob {
             context.logger.info("Payload from subscription : \(payload.subscription.topic) deliver nothing")
         case .youTubeVideos(let youTubeVideos):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(youTubeVideos.count) entries")
-            try await context.queue.dispatch(ReceivingYouTubeVideosJob.self, .init(youTubeVideos))
+            try await context.queue.dispatch(StoringYouTubeVideosJob.self, .init(youTubeVideos))
         case .deletedYouTubeVideos(let deletedVideoIDs):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(deletedVideoIDs.count) deleted entries")
             try await context.queue.dispatch(DeletingYouTubeVideosJob.self, .init(deletedVideoIDs))
