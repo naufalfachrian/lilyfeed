@@ -43,7 +43,7 @@ public struct ReceivingPayloadJob: AsyncJob {
             try await context.queue.dispatch(ReceivingYouTubeVideosJob.self, .init(youTubeVideos))
         case .deletedYouTubeVideos(let deletedVideoIDs):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(deletedVideoIDs.count) deleted entries")
-            try await context.queue.dispatch(ReceivingDeletedYouTubeVideos.self, .init(deletedVideoIDs))
+            try await context.queue.dispatch(DeletingYouTubeVideosJob.self, .init(deletedVideoIDs))
         case .failure(let reason):
             context.logger.error("Failure when reading content of payload from \(payload.subscription.topic) -> \(reason.localizedDescription)")
         }
