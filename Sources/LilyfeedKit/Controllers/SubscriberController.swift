@@ -52,9 +52,6 @@ public struct SubscriberController:
             \(parsed.videos.ids(separator: ","))
             """
         )
-        parsed.videos.forEach { video in
-            _ = request.queue.dispatch(ReceiveYouTubeVideoJob.self, .init(from: video))
-        }
         return try await self.storing(from: request, for: parsed)
     }
     

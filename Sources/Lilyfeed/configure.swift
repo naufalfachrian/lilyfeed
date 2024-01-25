@@ -35,9 +35,6 @@ public func configure(_ app: Application) async throws {
     app.subscriber.host(Environment.get("WEB_HOST")!)
     try app.queues.use(.redis(url: Environment.get("REDIS_HOST")!))
     
-    let receiveYouTubeVideoJob = ReceiveYouTubeVideoJob()
-    app.queues.add(receiveYouTubeVideoJob)
-    
     app.queues.add(ReceivingPayloadJob())
     app.queues.add(StoringYouTubeVideosJob())
     app.queues.add(DeletingYouTubeVideosJob())
