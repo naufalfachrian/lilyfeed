@@ -13,7 +13,7 @@ import WebSubSubscriber
 
 public protocol YouTubeVideo {
     
-    var fromSubscription: Subscription? { get }
+    var fromSubscription: Subscription { get }
     
     var channelID: String { get }
     
@@ -63,8 +63,8 @@ public final class YouTubeVideoModel: YouTubeVideo, Model, Content {
     @ID(key: .id)
     public var id: UUID?
     
-    @OptionalParent(key: "subscription_id")
-    public var subscription: SubscriptionModel?
+    @Parent(key: "subscription_id")
+    public var subscription: SubscriptionModel
     
     @Field(key: "channel_id")
     public var channelID: String
@@ -90,14 +90,14 @@ public final class YouTubeVideoModel: YouTubeVideo, Model, Content {
     @Field(key: "created_at")
     public var createdAt: Date
     
-    public var fromSubscription: Subscription? {
+    public var fromSubscription: Subscription {
         return self.subscription
     }
     
     public init() { }
     
     public init(
-        subscription: SubscriptionModel?,
+        subscription: SubscriptionModel,
         channelID: String,
         channelName: String,
         channelURL: String,
@@ -106,7 +106,7 @@ public final class YouTubeVideoModel: YouTubeVideo, Model, Content {
         videoURL: String,
         publishedAt: Date
     ) {
-        self.$subscription.id = subscription?.id
+        self.$subscription.id = subscription.id!
         self.channelID = channelID
         self.channelName = channelName
         self.channelURL = channelURL
@@ -122,7 +122,7 @@ public final class YouTubeVideoModel: YouTubeVideo, Model, Content {
 
 extension YouTubeVideoModel {
     
-    public convenience init?(entry: AtomFeedEntry, with subscription: Subscription) {
+    public convenience init?(entry: AtomFeedEntry, with subscription: SubscriptionModel) {
         guard let yt = entry.yt else {
             return nil
         }
@@ -148,7 +148,7 @@ extension YouTubeVideoModel {
             return nil
         }
         self.init(
-            subscription: subscription as? SubscriptionModel,
+            subscription: subscription,
             channelID: channelID,
             channelName: channelName,
             channelURL: channelURLString,
@@ -172,7 +172,7 @@ extension YouTubeVideoModel {
         self.videoTitle = new.videoTitle
         self.videoURL = new.videoURL
         self.publishedAt = new.publishedAt
-        self.subscription?.id = new.subscription?.id
+        self.$subscription.id = new.$subscription.id
         try await self.update(on: db)
     }
     

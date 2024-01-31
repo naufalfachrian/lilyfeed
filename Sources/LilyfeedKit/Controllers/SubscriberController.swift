@@ -10,11 +10,7 @@ import Vapor
 import WebSubSubscriber
 
 
-public struct SubscriberController:
-        SubscriberRouteCollection,
-        ParsingPayload,
-        FindingHook
-{
+public struct SubscriberController: SubscriberRouteCollection {
     
     public init() { }
     
@@ -40,32 +36,6 @@ public struct SubscriberController:
                 subscription: received.subscription
             )
         )
-        return try await self.parsing(from: received.validPayload, for: received.subscription)
-    }
-    
-    func parsed(from request: Request, parsed: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
-        request.logger.info(
-            """
-            Payload parsed from request: \(request.id)
-            # of video entries: \(parsed.videos.count)
-            \(parsed.videos.ids(separator: ","))
-            """
-        )
-        return try await self.findingHook(from: request, for: parsed)
-    }
-    
-    func hooked(from request: Request, for hook: Hook) async throws -> Response {
-        switch hook {
-        case .found(let webhook, let videos):
-            request.logger.info(
-                """
-                Payload hooked from request: \(request.id)
-                via: \(webhook.webhookURL)
-                # of video entries: \(videos.count)
-                \(videos.ids(separator: ","))
-                """
-            )
-        }
         return Response(status: .noContent)
     }
     

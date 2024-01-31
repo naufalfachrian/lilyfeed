@@ -40,7 +40,7 @@ public struct ReceivingPayloadJob: AsyncJob {
             context.logger.info("Payload from subscription : \(payload.subscription.topic) deliver nothing")
         case .youTubeVideos(let youTubeVideos):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(youTubeVideos.count) entries")
-            try await context.queue.dispatch(StoringYouTubeVideosJob.self, .init(youTubeVideos))
+            try await context.queue.dispatch(StoringYouTubeVideosJob.self, youTubeVideos)
             try await context.queue.dispatch(FetchingYouTubeVideosDetailJob.self, .init(youTubeVideos.compactMap { youTubeVideo in youTubeVideo.videoID } ))
         case .deletedYouTubeVideos(let deletedVideoIDs):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(deletedVideoIDs.count) deleted entries")
@@ -72,7 +72,7 @@ enum PayloadContent {
 
 fileprivate extension Data {
     
-    func payloadContent(for subscription: Subscription) -> PayloadContent {
+    func payloadContent(for subscription: SubscriptionModel) -> PayloadContent {
         switch FeedParser(data: self).parse() {
         case .success(let feed):
             let entries = feed.atomFeed?.entries ?? []

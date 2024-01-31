@@ -26,6 +26,7 @@ public struct StoringYouTubeVideosJob: AsyncJob {
                 .first() 
             else {
                 try await youTubeVideo.save(on: context.application.db)
+                try await context.queue.dispatch(HookingDiscordJob.self, youTubeVideo)
                 return
             }
             try await stored.update(on: context.application.db, newData: youTubeVideo)
