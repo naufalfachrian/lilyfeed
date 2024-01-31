@@ -13,7 +13,6 @@ import WebSubSubscriber
 public struct SubscriberController:
         SubscriberRouteCollection,
         ParsingPayload,
-        StoringPayload,
         FindingHook
 {
     
@@ -52,18 +51,7 @@ public struct SubscriberController:
             \(parsed.videos.ids(separator: ","))
             """
         )
-        return try await self.storing(from: request, for: parsed)
-    }
-    
-    func stored(from request: Request, stored: (videos: [any YouTubeVideo & Model], subscription: SubscriptionModel)) async throws -> Response {
-        request.logger.info(
-            """
-            Payload stored from request: \(request.id)
-            # of video entries: \(stored.videos.count)
-            \(stored.videos.ids(separator: ","))
-            """
-        )
-        return try await self.findingHook(from: request, for: stored)
+        return try await self.findingHook(from: request, for: parsed)
     }
     
     func hooked(from request: Request, for hook: Hook) async throws -> Response {

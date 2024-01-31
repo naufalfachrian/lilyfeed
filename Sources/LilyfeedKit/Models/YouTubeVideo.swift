@@ -160,3 +160,20 @@ extension YouTubeVideoModel {
     }
     
 }
+
+
+extension YouTubeVideoModel {
+    
+    func update(on db: Database, newData new: YouTubeVideoModel) async throws {
+        self.channelID = new.channelID
+        self.channelName = new.channelName
+        self.channelURL = new.channelURL
+        self.videoID = new.videoID
+        self.videoTitle = new.videoTitle
+        self.videoURL = new.videoURL
+        self.publishedAt = new.publishedAt
+        self.subscription?.id = new.subscription?.id
+        try await self.update(on: db)
+    }
+    
+}
