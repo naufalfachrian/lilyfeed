@@ -20,15 +20,15 @@ public struct FetchingYouTubeVideosDetailJob: AsyncJob {
     public func dequeue(_ context: QueueContext, _ payload: [YouTubeVideoID]) async throws {
         if payload.isEmpty { return }
         let response = try await self.client(context.application.client, fetchYouTubeVideoByIDs: payload)
-        guard var responseBody = response.body, let data = responseBody.readData(length: responseBody.readableBytes) else {
-            context.logger.error("Failed to read bytes on when fetching YouTube Videos Detail")
-            return
+        let items = try response.content.decode(YouTubeVideoListJSON.self).items
+        items.forEach { item in
+            context.logger.info("Received additional information for Video ID : \(item.id)")
+            if let liveStreamingDetails = item.liveStreamingDetails {
+                context.logger.info("Livestream scheduled on \(liveStreamingDetails.scheduledStartTime?.ISO8601Format() ?? "N/A")")
+            } else {
+                context.logger.info("Video length \(item.contentDetails.duration) seconds")
+            }
         }
-        guard let responseString = String(data: data, encoding: .utf8) else {
-            context.logger.error("Failed to read response string on when fetching YouTube Videos Detail")
-            return
-        }
-        context.logger.info("\(responseString)")
     }
     
     fileprivate func client(_ client: Client, fetchYouTubeVideoByIDs videoIDs: [YouTubeVideoID]) async throws -> ClientResponse {
