@@ -41,10 +41,10 @@ public struct ReceivingPayloadJob: AsyncJob {
         case .youTubeVideos(let youTubeVideos):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(youTubeVideos.count) entries")
             try await context.queue.dispatch(StoringYouTubeVideosJob.self, youTubeVideos)
-            try await context.queue.dispatch(FetchingYouTubeVideosDetailJob.self, .init(youTubeVideos.compactMap { youTubeVideo in youTubeVideo.videoID } ))
+            try await context.queue.dispatch(FetchingYouTubeVideosDetailJob.self, youTubeVideos.compactMap { youTubeVideo in youTubeVideo.videoID } )
         case .deletedYouTubeVideos(let deletedVideoIDs):
             context.logger.info("Payload from subscription : \(payload.subscription.topic) contains \(deletedVideoIDs.count) deleted entries")
-            try await context.queue.dispatch(DeletingYouTubeVideosJob.self, .init(deletedVideoIDs))
+            try await context.queue.dispatch(DeletingYouTubeVideosJob.self, deletedVideoIDs)
         case .failure(let reason):
             context.logger.error("Failure when reading content of payload from \(payload.subscription.topic) -> \(reason.localizedDescription)")
         }
@@ -93,7 +93,7 @@ fileprivate extension Data {
                         guard let entryID = entry.attributes?.ref else {
                             return [] as [String]
                         }
-                        return [entryID]
+                        return [entryID.dropPrefix("yt:video:")]
                     }
                 )
             }
