@@ -23,8 +23,11 @@ public struct FetchingYouTubeVideosDetailJob: AsyncJob {
         let items = try response.content.decode(YouTubeVideoListJSON.self).items
         items.forEach { item in
             context.logger.info("Received additional information for Video ID : \(item.id)")
-            if let liveStreamingDetails = item.liveStreamingDetails {
-                context.logger.info("Livestream scheduled on \(liveStreamingDetails.scheduledStartTime?.ISO8601Format() ?? "N/A")")
+            if
+                let liveStreamingDetails = item.liveStreamingDetails,
+                let scheduledStartTime = liveStreamingDetails.scheduledStartTime 
+            {
+                context.logger.info("Livestream scheduled on \(DateFormatter.display.string(from: scheduledStartTime))")
             } else {
                 context.logger.info("Video length \(item.contentDetails.duration) seconds")
             }
