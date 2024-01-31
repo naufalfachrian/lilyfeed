@@ -18,6 +18,7 @@ public struct FetchingYouTubeVideosDetailJob: AsyncJob {
     public typealias Payload = [YouTubeVideoID]
     
     public func dequeue(_ context: QueueContext, _ payload: [YouTubeVideoID]) async throws {
+        if payload.isEmpty { return }
         let response = try await self.client(context.application.client, fetchYouTubeVideoByIDs: payload)
         guard var responseBody = response.body, let data = responseBody.readData(length: responseBody.readableBytes) else {
             context.logger.error("Failed to read bytes on when fetching YouTube Videos Detail")
