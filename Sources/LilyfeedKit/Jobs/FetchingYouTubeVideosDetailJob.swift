@@ -36,19 +36,12 @@ public struct FetchingYouTubeVideosDetailJob: AsyncJob {
         return try await client.get(URI(string: "https://youtube.googleapis.com/youtube/v3/videos"), headers: headers) { request in
             try request.query.encode(FetchYouTubeVideoByIDsQuery(
                 part: [
-                    "contentDetails",
-                    "fileDetails",
                     "id",
-                    "liveStreamingDetails",
-                    "localizations",
-                    "player",
-                    "processingDetails",
-                    "recordingDetails",
                     "snippet",
-                    "statistics",
+                    "contentDetails",
                     "status",
-                    "suggestions",
-                    "topicDetails"
+                    "statistics",
+                    "liveStreamingDetails",
                 ],
                 id: videoIDs,
                 key: Environment.get("YOUTUBE_API_KEY")!
