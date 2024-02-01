@@ -20,8 +20,7 @@ public struct FetchingYouTubeVideosDetailJob: AsyncJob {
     public func dequeue(_ context: QueueContext, _ payload: [YouTubeVideoID]) async throws {
         if payload.isEmpty { return }
         let response = try await self.client(context.application.client, fetchYouTubeVideoByIDs: payload)
-        let items = try response.content.decode(YouTubeVideoListJSON.self).items
-        items.forEach { item in
+        response.items.forEach { item in
             context.logger.info("Received additional information for Video ID : \(item.id)")
             if
                 let liveStreamingDetails = item.liveStreamingDetails,
@@ -34,37 +33,9 @@ public struct FetchingYouTubeVideosDetailJob: AsyncJob {
         }
     }
     
-    fileprivate func client(_ client: Client, fetchYouTubeVideoByIDs videoIDs: [YouTubeVideoID]) async throws -> ClientResponse {
-        var headers = HTTPHeaders()
-        headers.add(name: HTTPHeaders.Name.accept, value: "application/json")
-        return try await client.get(URI(string: "https://youtube.googleapis.com/youtube/v3/videos"), headers: headers) { request in
-            try request.query.encode(FetchYouTubeVideoByIDsQuery(
-                part: [
-                    "id",
-                    "snippet",
-                    "contentDetails",
-                    "status",
-                    "statistics",
-                    "liveStreamingDetails",
-                ],
-                id: videoIDs,
-                key: Environment.get("YOUTUBE_API_KEY")!
-            ), using: URLEncodedFormEncoder(configuration: .init(arrayEncoding: .values)))
-        }
-    }
-    
 }
 
 
-public typealias YouTubeVideoID = String
-
-
-private struct FetchYouTubeVideoByIDsQuery: Codable {
-    
-    let part: [String]
-    
-    let id: [String]
-    
-    let key: String
+extension FetchingYouTubeVideosDetailJob: FetchYouTubeVideoByIDs {
     
 }
