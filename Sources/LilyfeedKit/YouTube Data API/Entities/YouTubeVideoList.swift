@@ -17,14 +17,3 @@ protocol YouTubeVideoList {
     var pageInfo: YouTubePageInfo { get }
     
 }
-
-
-// MARK: - YouTube Page Info
-
-protocol YouTubePageInfo {
-    
-    var totalResult: UInt { get }
-    
-    var resultPerPage: UInt { get }
-    
-}
