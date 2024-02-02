@@ -10,7 +10,7 @@ import Vapor
 import Queues
 
 
-public struct HookingDiscordJob: AsyncJob {
+public struct HookingDiscordJob: AsyncJob, FetchYouTubeChannelByIDs {
     
     public init() {
     }
@@ -24,6 +24,7 @@ public struct HookingDiscordJob: AsyncJob {
         else {
             return
         }
+        let channel = try await client(context.application.client, fetchYouTubeChannelByIDs: [payload.channelID]).items.first
         let content = "<@&\(discordWebHook.roleIDToMention)> \(payload.videoTitle) \(payload.videoURL)"
         if !payload.wasPublishedLast24Hours {
             context.logger.info(
@@ -37,7 +38,9 @@ public struct HookingDiscordJob: AsyncJob {
         let response = try await context.application.client.post(
             URI(string: "\(discordWebHook.webhookURL)?wait=true"),
             content: WebhookRequest(
-                content: content
+                content: content,
+                username: channel?.snippet?.title,
+                avatarURL: channel?.snippet?.thumbnails?.high?.URL
             )
         )
         context.logger.info(
