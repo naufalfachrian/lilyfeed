@@ -47,11 +47,11 @@ protocol YouTubeChannelSnippet: Codable {
     
     var thumbnails: YouTubeChannelSnippetThumbnails? { get }
     
-    var defaultLanguage: String { get }
+    var defaultLanguage: String? { get }
     
     var localized: YouTubeChannelSnippetLocalized? { get }
     
-    var country: String { get }
+    var country: String? { get }
     
 }
 
@@ -100,9 +100,7 @@ protocol YouTubeChannelContentDetails: Codable {
 protocol YouTubeChannelRelatedPlaylists: Codable {
     
     var likes: String { get }
-    
-    var favorites: String { get }
-    
+        
     var uploads: String { get }
     
 }
@@ -142,7 +140,7 @@ protocol YouTubeChannelStatus: Codable {
     
     var isLinked: Bool { get }
     
-    var longUploadStatus: String { get }
+    var longUploadsStatus: String { get }
     
     var madeForKids: Bool { get }
     

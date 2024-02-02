@@ -70,9 +70,9 @@ struct YouTubeChannelSnippetJSON: Codable {
     private var _customURL: String
     private var _publishedAt: Date
     private var _thumbnails: YouTubeChannelSnippetThumbnailsJSON?
-    private var _defaultLanguage: String
+    private var _defaultLanguage: String?
     private var _localized: YouTubeChannelSnippetLocalizedJSON?
-    private var _country: String
+    private var _country: String?
     
     enum CodingKeys: String, CodingKey {
         case _title = "title"
@@ -99,11 +99,11 @@ extension YouTubeChannelSnippetJSON: YouTubeChannelSnippet {
     
     var thumbnails: YouTubeChannelSnippetThumbnails? { return _thumbnails }
     
-    var defaultLanguage: String { return _defaultLanguage }
+    var defaultLanguage: String? { return _defaultLanguage }
     
     var localized: YouTubeChannelSnippetLocalized? { return _localized }
     
-    var country: String { return _country }
+    var country: String? { return _country }
     
 }
 
@@ -199,12 +199,10 @@ extension YouTubeChannelContentDetailsJSON: YouTubeChannelContentDetails {
 struct YouTubeChannelRelatedPlaylistsJSON: Codable {
     
     private var _likes: String
-    private var _favorites: String
     private var _uploads: String
     
     enum CodingKeys: String, CodingKey {
         case _likes = "likes"
-        case _favorites = "favorites"
         case _uploads = "uploads"
     }
     
@@ -213,9 +211,7 @@ struct YouTubeChannelRelatedPlaylistsJSON: Codable {
 extension YouTubeChannelRelatedPlaylistsJSON: YouTubeChannelRelatedPlaylists {
     
     var likes: String { return _likes }
-    
-    var favorites: String { return _favorites }
-    
+        
     var uploads: String { return _uploads }
     
 }
@@ -235,6 +231,14 @@ struct YouTubeChannelStatisticsJSON: Codable {
         case _subscriberCount = "subscriberCount"
         case _hiddenSubscriberCount = "hiddenSubscriberCount"
         case _videoCount = "videoCount"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._viewCount = UInt32(try container.decode(String.self, forKey: ._viewCount)) ?? 0
+        self._subscriberCount = UInt32(try container.decode(String.self, forKey: ._subscriberCount)) ?? 0
+        self._hiddenSubscriberCount = try container.decode(Bool.self, forKey: ._hiddenSubscriberCount)
+        self._videoCount = UInt32(try container.decode(String.self, forKey: ._videoCount)) ?? 0
     }
     
 }
@@ -281,16 +285,25 @@ struct YouTubeChannelStatusJSON: Codable {
     
     private var _privacyStatus: String
     private var _isLinked: Bool
-    private var _longUploadStatus: String
+    private var _longUploadsStatus: String
     private var _madeForKids: Bool
     private var _selfDeclareMadeForKids: Bool
     
     enum CodingKeys: String, CodingKey {
         case _privacyStatus = "privacyStatus"
         case _isLinked = "isLinked"
-        case _longUploadStatus = "longUploadStatus"
+        case _longUploadsStatus = "longUploadsStatus"
         case _madeForKids = "madeForKids"
         case _selfDeclareMadeForKids = "selfDeclareMadeForKids"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._privacyStatus = try container.decode(String.self, forKey: ._privacyStatus)
+        self._isLinked = try container.decode(Bool.self, forKey: ._isLinked)
+        self._longUploadsStatus = try container.decode(String.self, forKey: ._longUploadsStatus)
+        self._madeForKids = (try? container.decode(Bool.self, forKey: ._madeForKids)) ?? false
+        self._selfDeclareMadeForKids = (try? container.decode(Bool.self, forKey: ._selfDeclareMadeForKids)) ?? false
     }
     
 }
@@ -301,7 +314,7 @@ extension YouTubeChannelStatusJSON: YouTubeChannelStatus {
     
     var isLinked: Bool { return _isLinked }
     
-    var longUploadStatus: String { return _longUploadStatus }
+    var longUploadsStatus: String { return _longUploadsStatus }
     
     var madeForKids: Bool { return _madeForKids }
     
