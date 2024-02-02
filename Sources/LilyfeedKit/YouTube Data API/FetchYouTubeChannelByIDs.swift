@@ -1,54 +1,53 @@
 //
-//  FetchYouTubeVideoByIDs.swift
+//  FetchYouTubeChannelByIDs.swift
 //
 //
-//  Created by Bunga Mungil on 01/02/24.
+//  Created by Bunga Mungil on 02/02/24.
 //
 
 import Foundation
 import Vapor
 
 
-protocol FetchYouTubeVideoByIDs {
+protocol FetchYouTubeChannelByIDs {
     
-    func client(_ client: Client, fetchYouTubeVideoByIDs videoIDs: [YouTubeVideoID]) async throws -> any YouTubeVideoList
+    func client(_ client: Client, fetchYouTubeChannelByIDs channelIDs: [YouTubeChannelID]) async throws -> any YouTubeChannelList
     
 }
 
 
-extension FetchYouTubeVideoByIDs {
+extension FetchYouTubeChannelByIDs {
     
-    func client(_ client: Client, fetchYouTubeVideoByIDs videoIDs: [YouTubeVideoID]) async throws -> any YouTubeVideoList {
+    func client(_ client: Client, fetchYouTubeChannelByIDs channelIDs: [YouTubeChannelID]) async throws -> any YouTubeChannelList {
         var headers = HTTPHeaders()
         headers.add(name: HTTPHeaders.Name.accept, value: "application/json")
         let response = try await client.get(URI(string: "https://youtube.googleapis.com/youtube/v3/videos"), headers: headers) { request in
-            try request.query.encode(FetchYouTubeVideoByIDsQuery(
+            try request.query.encode(FetchYouTubeChannelByIDsQuery(
                 part: [
                     "id",
                     "snippet",
                     "contentDetails",
                     "status",
                     "statistics",
-                    "liveStreamingDetails",
                 ],
-                id: videoIDs,
+                id: channelIDs,
                 key: Environment.get("YOUTUBE_API_KEY")!
             ), using: URLEncodedFormEncoder(configuration: .init(arrayEncoding: .values)))
         }
-        return try response.content.decode(YouTubeVideoListJSON.self)
+        return try response.content.decode(YouTubeChannelListJSON.self)
     }
     
 }
 
 
-public typealias YouTubeVideoID = String
+typealias YouTubeChannelID = String
 
 
-private struct FetchYouTubeVideoByIDsQuery: Codable {
+private struct FetchYouTubeChannelByIDsQuery: Codable {
     
     let part: [String]
     
-    let id: [YouTubeVideoID]
+    let id: [YouTubeChannelID]
     
     let key: String
     
