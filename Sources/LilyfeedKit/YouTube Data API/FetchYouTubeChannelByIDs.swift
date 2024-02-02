@@ -34,7 +34,7 @@ extension FetchYouTubeChannelByIDs {
                 key: Environment.get("YOUTUBE_API_KEY")!
             ), using: URLEncodedFormEncoder(configuration: .init(arrayEncoding: .values)))
         }
-        return try response.content.decode(YouTubeChannelListJSON.self)
+        return try response.content.decode(YouTubeChannelListJSON.self, using: JSONDecoder.youTubeDecoder)
     }
     
 }

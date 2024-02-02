@@ -91,7 +91,7 @@ struct YouTubeVideoSnippetJSON: Codable {
 extension YouTubeVideoSnippetJSON: YouTubeVideoSnippet {
     
     var publishedAt: Date? {
-        return DateFormatter.ISO8601.date(from: _publishedAt)
+        return DateFormatter.ISO8601_1.date(from: _publishedAt)
     }
     
     var channelID: String { return _channelID }
@@ -379,7 +379,7 @@ extension YouTubeVideoLiveStreamingDetailsJSON: YouTubeVideoLiveStreamingDetails
         guard let scheduledStartTimeString = _scheduledStartTime else {
             return nil
         }
-        return DateFormatter.ISO8601.date(from: scheduledStartTimeString)
+        return DateFormatter.ISO8601_1.date(from: scheduledStartTimeString)
     }
     
     var activeLiveChatID: String? { return _activeLiveChatID }
