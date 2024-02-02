@@ -22,7 +22,7 @@ struct YouTubeChannelJSON: Codable {
     private var _contentOwnerDetails: YouTubeChannelContentOwnerDetailsJSON?
     
     enum CodingKeys: String, CodingKey {
-        case _eTag = "eTag"
+        case _eTag = "etag"
         case _id = "id"
         case _snippet = "snippet"
         case _contentDetails = "contentDetails"
@@ -77,7 +77,7 @@ struct YouTubeChannelSnippetJSON: Codable {
     enum CodingKeys: String, CodingKey {
         case _title = "title"
         case _description = "description"
-        case _customURL = "customURL"
+        case _customURL = "customUrl"
         case _publishedAt = "publishedAt"
         case _thumbnails = "thumbnails"
         case _defaultLanguage = "defaultLanguage"
@@ -138,7 +138,7 @@ struct YouTubeChannelSnippetThumbnailJSON: Codable {
     private var _height: UInt
     
     enum CodingKeys: String, CodingKey {
-        case _URL = "URL"
+        case _URL = "url"
         case _width = "width"
         case _height = "height"
     }
@@ -260,7 +260,7 @@ struct YouTubeChannelTopicDetailsJSON: Codable {
     private var _topicCategories: [String]
     
     enum CodingKeys: String, CodingKey {
-        case _topicIDs = "topicIDs"
+        case _topicIDs = "topicIds"
         case _topicCategories = "topicCategories"
     }
     
@@ -347,7 +347,7 @@ struct YouTubeChannelBrandingSettingsChannelJSON: Codable {
         case _title = "title"
         case _description = "description"
         case _keywords = "keywords"
-        case _trackingAnalyticsAccountID = "trackingAnalyticsAccountID"
+        case _trackingAnalyticsAccountID = "trackingAnalyticsAccountId"
         case _moderateComments = "moderateComments"
         case _unsubscribedTrailer = "unsubscribedTrailer"
         case _defaultLanguage = "defaultLanguage"
@@ -385,7 +385,7 @@ struct YouTubeChannelBrandingSettingsWatchJSON: Codable {
     enum CodingKeys: String, CodingKey {
         case _textColor = "textColor"
         case _backgroundColor = "backgroundColor"
-        case _featuredPlaylistID = "featuredPlaylistID"
+        case _featuredPlaylistID = "featuredPlaylistId"
     }
     
 }
@@ -414,7 +414,7 @@ struct YouTubeChannelAuditDetailsJSON: Codable {
         case _overallGoodStanding = "overallGoodStanding"
         case _communityGuidelinesGoodStanding = "communityGuidelinesGoodStanding"
         case _copyrightStrikeGoodStanding = "copyrightStrikeGoodStanding"
-        case _contentIDClaimsGoodStanding = "contentIDClaimsGoodStanding"
+        case _contentIDClaimsGoodStanding = "contentIdClaimsGoodStanding"
     }
     
 }
