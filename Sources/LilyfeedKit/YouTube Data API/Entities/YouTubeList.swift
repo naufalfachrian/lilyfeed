@@ -1,5 +1,5 @@
 //
-//  YouTubeListJSON.swift
+//  YouTubeList.swift
 //
 //
 //  Created by Bunga Mungil on 31/01/24.
@@ -8,13 +8,13 @@
 import Foundation
 
 
-class YouTubeListJSON<Items: Codable>: Codable {
+class YouTubeList<Items: Codable>: Codable {
     
     var eTag: String
     
     var items: [Items]
     
-    var pageInfo: YouTubePageInfoJSON
+    var pageInfo: YouTubePageInfo
     
     enum CodingKeys: String, CodingKey {
         case eTag = "etag"
@@ -25,15 +25,15 @@ class YouTubeListJSON<Items: Codable>: Codable {
 }
 
 
-// MARK: - YouTube Video List JSON
+// MARK: - YouTube Video List
 
-class YouTubeVideoListJSON: YouTubeListJSON<YouTubeVideoDetailJSON> {
+class YouTubeVideoListJSON: YouTubeList<YouTubeVideoDetail> {
     
 }
 
 
-// MARK: - YouTube Channel List JSON
+// MARK: - YouTube Channel List
 
-class YouTubeChannelListJSON: YouTubeListJSON<YouTubeChannelJSON> {
+class YouTubeChannelListJSON: YouTubeList<YouTubeChannel> {
     
 }

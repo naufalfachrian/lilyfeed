@@ -1,5 +1,5 @@
 //
-//  YouTubeVideoDetailJSON.swift
+//  YouTubeVideoDetail.swift
 //
 //
 //  Created by Bunga Mungil on 31/01/24.
@@ -8,21 +8,21 @@
 import Foundation
 
 
-struct YouTubeVideoDetailJSON: Codable {
+struct YouTubeVideoDetail: Codable {
     
     var eTag: String
     
     var id: String
     
-    var snippet: YouTubeVideoSnippetJSON
+    var snippet: YouTubeVideoSnippet
     
-    var contentDetails: YouTubeVideoContentDetailsJSON
+    var contentDetails: YouTubeVideoContentDetails
     
-    var status: YouTubeVideoStatusJSON
+    var status: YouTubeVideoStatus
     
-    var statistics: YouTubeVideoStatisticsJSON
+    var statistics: YouTubeVideoStatistics
     
-    var liveStreamingDetails: YouTubeVideoLiveStreamingDetailsJSON?
+    var liveStreamingDetails: YouTubeVideoLiveStreamingDetails?
     
     enum CodingKeys: String, CodingKey {
         case eTag = "etag"
@@ -37,9 +37,9 @@ struct YouTubeVideoDetailJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Snippet JSON
+// MARK: - YouTube Video Snippet
 
-struct YouTubeVideoSnippetJSON: Codable {
+struct YouTubeVideoSnippet: Codable {
     
     var publishedAt: String
     
@@ -49,7 +49,7 @@ struct YouTubeVideoSnippetJSON: Codable {
     
     var description: String
     
-    var thumbnails: YouTubeVideoThumbnailsJSON?
+    var thumbnails: YouTubeVideoThumbnails?
     
     var channelTitle: String
     
@@ -71,15 +71,15 @@ struct YouTubeVideoSnippetJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Thumbnails JSON
+// MARK: - YouTube Video Thumbnails
 
-struct YouTubeVideoThumbnailsJSON: Codable {
+struct YouTubeVideoThumbnails: Codable {
     
-    var `default`: YouTubeVideoThumbnailJSON?
+    var `default`: YouTubeVideoThumbnail?
     
-    var medium: YouTubeVideoThumbnailJSON?
+    var medium: YouTubeVideoThumbnail?
     
-    var high: YouTubeVideoThumbnailJSON?
+    var high: YouTubeVideoThumbnail?
     
     enum CodingKeys: String, CodingKey {
         case `default` = "default"
@@ -90,9 +90,9 @@ struct YouTubeVideoThumbnailsJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Thumbnail JSON
+// MARK: - YouTube Video Thumbnail
 
-struct YouTubeVideoThumbnailJSON: Codable {
+struct YouTubeVideoThumbnail: Codable {
     
     var url: String
     
@@ -109,9 +109,9 @@ struct YouTubeVideoThumbnailJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Content Details JSON
+// MARK: - YouTube Video Content Details
 
-struct YouTubeVideoContentDetailsJSON: Codable {
+struct YouTubeVideoContentDetails: Codable {
     
     var duration: UInt
     
@@ -171,9 +171,9 @@ struct YouTubeVideoContentDetailsJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Status JSON
+// MARK: - YouTube Video Status
 
-struct YouTubeVideoStatusJSON: Codable {
+struct YouTubeVideoStatus: Codable {
     
     var uploadStatus: YouTubeVideoUploadStatus
     
@@ -199,9 +199,9 @@ struct YouTubeVideoStatusJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Statistics JSON
+// MARK: - YouTube Video Statistics
 
-struct YouTubeVideoStatisticsJSON: Codable {
+struct YouTubeVideoStatistics: Codable {
     
     var viewsCount: UInt
     
@@ -225,9 +225,9 @@ struct YouTubeVideoStatisticsJSON: Codable {
 }
 
 
-// MARK: - YouTube Video Live Streaming Details JSON
+// MARK: - YouTube Video Live Streaming Details
 
-struct YouTubeVideoLiveStreamingDetailsJSON: Codable {
+struct YouTubeVideoLiveStreamingDetails: Codable {
     
     var scheduledStartTime: Date?
     

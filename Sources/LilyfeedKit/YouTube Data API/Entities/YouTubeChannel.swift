@@ -8,18 +8,18 @@
 import Foundation
 
 
-struct YouTubeChannelJSON: Codable {
+struct YouTubeChannel: Codable {
     
     var eTag: String
     var id: String
-    var snippet: YouTubeChannelSnippetJSON?
-    var contentDetails: YouTubeChannelContentDetailsJSON?
-    var statistics: YouTubeChannelStatisticsJSON?
-    var topicDetails: YouTubeChannelTopicDetailsJSON?
-    var status: YouTubeChannelStatusJSON?
-    var brandingSettings: YouTubeChannelBrandingSettingsJSON?
-    var auditDetails: YouTubeChannelAuditDetailsJSON?
-    var contentOwnerDetails: YouTubeChannelContentOwnerDetailsJSON?
+    var snippet: YouTubeChannelSnippet?
+    var contentDetails: YouTubeChannelContentDetails?
+    var statistics: YouTubeChannelStatistics?
+    var topicDetails: YouTubeChannelTopicDetails?
+    var status: YouTubeChannelStatus?
+    var brandingSettings: YouTubeChannelBrandingSettings?
+    var auditDetails: YouTubeChannelAuditDetails?
+    var contentOwnerDetails: YouTubeChannelContentOwnerDetails?
     
     enum CodingKeys: String, CodingKey {
         case eTag = "etag"
@@ -37,17 +37,17 @@ struct YouTubeChannelJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Snippet JSON
+// MARK: - YouTube Channel Snippet
 
-struct YouTubeChannelSnippetJSON: Codable {
+struct YouTubeChannelSnippet: Codable {
     
     var title: String
     var description: String
     var customURL: String
     var publishedAt: Date
-    var thumbnails: YouTubeChannelSnippetThumbnailsJSON?
+    var thumbnails: YouTubeChannelSnippetThumbnails?
     var defaultLanguage: String?
-    var localized: YouTubeChannelSnippetLocalizedJSON?
+    var localized: YouTubeChannelSnippetLocalized?
     var country: String?
     
     enum CodingKeys: String, CodingKey {
@@ -64,11 +64,11 @@ struct YouTubeChannelSnippetJSON: Codable {
 }
 
 
-struct YouTubeChannelSnippetThumbnailsJSON: Codable {
+struct YouTubeChannelSnippetThumbnails: Codable {
     
-    var `default`: YouTubeChannelSnippetThumbnailJSON?
-    var medium: YouTubeChannelSnippetThumbnailJSON?
-    var high: YouTubeChannelSnippetThumbnailJSON?
+    var `default`: YouTubeChannelSnippetThumbnail?
+    var medium: YouTubeChannelSnippetThumbnail?
+    var high: YouTubeChannelSnippetThumbnail?
     
     enum CodingKeys: String, CodingKey {
         case `default` = "default"
@@ -79,7 +79,7 @@ struct YouTubeChannelSnippetThumbnailsJSON: Codable {
 }
 
 
-struct YouTubeChannelSnippetThumbnailJSON: Codable {
+struct YouTubeChannelSnippetThumbnail: Codable {
     
     var URL: String
     var width: UInt
@@ -94,7 +94,7 @@ struct YouTubeChannelSnippetThumbnailJSON: Codable {
 }
 
 
-struct YouTubeChannelSnippetLocalizedJSON: Codable {
+struct YouTubeChannelSnippetLocalized: Codable {
     
     var title: String
     var description: String
@@ -107,11 +107,11 @@ struct YouTubeChannelSnippetLocalizedJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Content Details JSON
+// MARK: - YouTube Channel Content Details
 
-struct YouTubeChannelContentDetailsJSON: Codable {
+struct YouTubeChannelContentDetails: Codable {
     
-    var relatedPlaylists: YouTubeChannelRelatedPlaylistsJSON?
+    var relatedPlaylists: YouTubeChannelRelatedPlaylists?
     
     enum CodingKeys: String, CodingKey {
         case relatedPlaylists = "relatedPlaylists"
@@ -120,7 +120,7 @@ struct YouTubeChannelContentDetailsJSON: Codable {
 }
 
 
-struct YouTubeChannelRelatedPlaylistsJSON: Codable {
+struct YouTubeChannelRelatedPlaylists: Codable {
     
     var likes: String
     var uploads: String
@@ -133,9 +133,9 @@ struct YouTubeChannelRelatedPlaylistsJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Statistics JSON
+// MARK: - YouTube Channel Statistics
 
-struct YouTubeChannelStatisticsJSON: Codable {
+struct YouTubeChannelStatistics: Codable {
     
     var viewCount: UInt32
     var subscriberCount: UInt32
@@ -160,9 +160,9 @@ struct YouTubeChannelStatisticsJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Topic Details JSON
+// MARK: - YouTube Channel Topic Details
 
-struct YouTubeChannelTopicDetailsJSON: Codable {
+struct YouTubeChannelTopicDetails: Codable {
     
     var topicIDs: [String]
     var topicCategories: [String]
@@ -175,9 +175,9 @@ struct YouTubeChannelTopicDetailsJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Status JSON
+// MARK: - YouTube Channel Status
 
-struct YouTubeChannelStatusJSON: Codable {
+struct YouTubeChannelStatus: Codable {
     
     var privacyStatus: String
     var isLinked: Bool
@@ -205,12 +205,12 @@ struct YouTubeChannelStatusJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Branding Settings JSON
+// MARK: - YouTube Channel Branding Settings
 
-struct YouTubeChannelBrandingSettingsJSON: Codable {
+struct YouTubeChannelBrandingSettings: Codable {
     
-    var channel: YouTubeChannelBrandingSettingsChannelJSON?
-    var watch: YouTubeChannelBrandingSettingsWatchJSON?
+    var channel: YouTubeChannelBrandingSettingsChannel?
+    var watch: YouTubeChannelBrandingSettingsWatch?
     
     enum CodingKeys: String, CodingKey {
         case channel = "channel"
@@ -220,7 +220,7 @@ struct YouTubeChannelBrandingSettingsJSON: Codable {
 }
 
 
-struct YouTubeChannelBrandingSettingsChannelJSON: Codable {
+struct YouTubeChannelBrandingSettingsChannel: Codable {
     
     var title: String
     var description: String
@@ -245,7 +245,7 @@ struct YouTubeChannelBrandingSettingsChannelJSON: Codable {
 }
 
 
-struct YouTubeChannelBrandingSettingsWatchJSON: Codable {
+struct YouTubeChannelBrandingSettingsWatch: Codable {
     
     var textColor: String
     var backgroundColor: String
@@ -260,9 +260,9 @@ struct YouTubeChannelBrandingSettingsWatchJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Audit Details JSON
+// MARK: - YouTube Channel Audit Details
 
-struct YouTubeChannelAuditDetailsJSON: Codable {
+struct YouTubeChannelAuditDetails: Codable {
     
     var overallGoodStanding: Bool
     var communityGuidelinesGoodStanding: Bool
@@ -279,9 +279,9 @@ struct YouTubeChannelAuditDetailsJSON: Codable {
 }
 
 
-// MARK: - YouTube Channel Content Owner Details JSON
+// MARK: - YouTube Channel Content Owner Details
 
-struct YouTubeChannelContentOwnerDetailsJSON: Codable {
+struct YouTubeChannelContentOwnerDetails: Codable {
     
     var contentOwner: String
     var timeLinked: Date
