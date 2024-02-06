@@ -11,14 +11,14 @@ import Vapor
 
 protocol FetchYouTubeChannelByIDs {
     
-    func client(_ client: Client, fetchYouTubeChannelByIDs channelIDs: [YouTubeChannelID]) async throws -> any YouTubeChannelList
+    func client(_ client: Client, fetchYouTubeChannelByIDs channelIDs: [YouTubeChannelID]) async throws -> YouTubeChannelListJSON
     
 }
 
 
 extension FetchYouTubeChannelByIDs {
     
-    func client(_ client: Client, fetchYouTubeChannelByIDs channelIDs: [YouTubeChannelID]) async throws -> any YouTubeChannelList {
+    func client(_ client: Client, fetchYouTubeChannelByIDs channelIDs: [YouTubeChannelID]) async throws -> YouTubeChannelListJSON {
         var headers = HTTPHeaders()
         headers.add(name: HTTPHeaders.Name.accept, value: "application/json")
         let response = try await client.get(URI(string: "https://youtube.googleapis.com/youtube/v3/channels"), headers: headers) { request in

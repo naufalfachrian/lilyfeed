@@ -8,211 +8,287 @@
 import Foundation
 
 
-protocol YouTubeChannel: Codable {
+struct YouTubeChannelJSON: Codable {
     
-    var eTag: String { get }
+    var eTag: String
+    var id: String
+    var snippet: YouTubeChannelSnippetJSON?
+    var contentDetails: YouTubeChannelContentDetailsJSON?
+    var statistics: YouTubeChannelStatisticsJSON?
+    var topicDetails: YouTubeChannelTopicDetailsJSON?
+    var status: YouTubeChannelStatusJSON?
+    var brandingSettings: YouTubeChannelBrandingSettingsJSON?
+    var auditDetails: YouTubeChannelAuditDetailsJSON?
+    var contentOwnerDetails: YouTubeChannelContentOwnerDetailsJSON?
     
-    var id: String { get }
-    
-    var snippet: YouTubeChannelSnippet? { get }
-    
-    var contentDetails: YouTubeChannelContentDetails? { get }
-    
-    var statistics: YouTubeChannelStatistics? { get }
-    
-    var topicDetails: YouTubeChannelTopicDetails? { get }
-    
-    var status: YouTubeChannelStatus? { get }
-    
-    var brandingSettings: YouTubeChannelBrandingSettings? { get }
-    
-    var auditDetails: YouTubeChannelAuditDetails? { get }
-    
-    var contentOwnerDetails: YouTubeChannelContentOwnerDetails? { get }
-        
-}
-
-
-// MARK: - YouTube Channel Snippet
-
-protocol YouTubeChannelSnippet: Codable {
-    
-    var title: String { get }
-    
-    var description: String { get }
-    
-    var customURL: String { get }
-    
-    var publishedAt: Date { get }
-    
-    var thumbnails: YouTubeChannelSnippetThumbnails? { get }
-    
-    var defaultLanguage: String? { get }
-    
-    var localized: YouTubeChannelSnippetLocalized? { get }
-    
-    var country: String? { get }
+    enum CodingKeys: String, CodingKey {
+        case eTag = "etag"
+        case id = "id"
+        case snippet = "snippet"
+        case contentDetails = "contentDetails"
+        case statistics = "statistics"
+        case topicDetails = "topicDetails"
+        case status = "status"
+        case brandingSettings = "brandingSettings"
+        case auditDetails = "auditDetails"
+        case contentOwnerDetails = "contentOwnerDetails"
+    }
     
 }
 
 
+// MARK: - YouTube Channel Snippet JSON
 
-protocol YouTubeChannelSnippetThumbnails: Codable {
+struct YouTubeChannelSnippetJSON: Codable {
     
-    var `default`: YouTubeChannelSnippetThumbnail? { get }
+    var title: String
+    var description: String
+    var customURL: String
+    var publishedAt: Date
+    var thumbnails: YouTubeChannelSnippetThumbnailsJSON?
+    var defaultLanguage: String?
+    var localized: YouTubeChannelSnippetLocalizedJSON?
+    var country: String?
     
-    var medium: YouTubeChannelSnippetThumbnail? { get }
-    
-    var high: YouTubeChannelSnippetThumbnail? { get }
+    enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case description = "description"
+        case customURL = "customUrl"
+        case publishedAt = "publishedAt"
+        case thumbnails = "thumbnails"
+        case defaultLanguage = "defaultLanguage"
+        case localized = "localized"
+        case country = "country"
+    }
     
 }
 
 
-protocol YouTubeChannelSnippetThumbnail: Codable {
+struct YouTubeChannelSnippetThumbnailsJSON: Codable {
     
-    var URL: String { get }
+    var `default`: YouTubeChannelSnippetThumbnailJSON?
+    var medium: YouTubeChannelSnippetThumbnailJSON?
+    var high: YouTubeChannelSnippetThumbnailJSON?
     
-    var width: UInt { get }
-    
-    var height: UInt { get }
-    
-}
-
-
-protocol YouTubeChannelSnippetLocalized: Codable {
-    
-    var title: String { get }
-    
-    var description: String { get }
+    enum CodingKeys: String, CodingKey {
+        case `default` = "default"
+        case medium = "medium"
+        case high = "high"
+    }
     
 }
 
 
-// MARK: - YouTube Channel Content Details
-
-protocol YouTubeChannelContentDetails: Codable {
+struct YouTubeChannelSnippetThumbnailJSON: Codable {
     
-    var relatedPlaylists: YouTubeChannelRelatedPlaylists? { get }
+    var URL: String
+    var width: UInt
+    var height: UInt
     
-}
-
-
-protocol YouTubeChannelRelatedPlaylists: Codable {
-    
-    var likes: String { get }
-        
-    var uploads: String { get }
+    enum CodingKeys: String, CodingKey {
+        case URL = "url"
+        case width = "width"
+        case height = "height"
+    }
     
 }
 
 
-// MARK: - YouTube Channel Statistics
-
-protocol YouTubeChannelStatistics: Codable {
+struct YouTubeChannelSnippetLocalizedJSON: Codable {
     
-    var viewCount: UInt32 { get }
+    var title: String
+    var description: String
     
-    var subscriberCount: UInt32 { get }
-    
-    var hiddenSubscriberCount: Bool { get }
-    
-    var videoCount: UInt32 { get }
+    enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case description = "description"
+    }
     
 }
 
 
-// MARK: - YouTube Channel Topic Details
+// MARK: - YouTube Channel Content Details JSON
 
-protocol YouTubeChannelTopicDetails: Codable {
+struct YouTubeChannelContentDetailsJSON: Codable {
     
-    var topicIDs: [String] { get }
+    var relatedPlaylists: YouTubeChannelRelatedPlaylistsJSON?
     
-    var topicCategories: [String] { get }
+    enum CodingKeys: String, CodingKey {
+        case relatedPlaylists = "relatedPlaylists"
+    }
     
 }
 
 
-// MARK: - YouTube Channel Status
-
-protocol YouTubeChannelStatus: Codable {
+struct YouTubeChannelRelatedPlaylistsJSON: Codable {
     
-    var privacyStatus: String { get }
+    var likes: String
+    var uploads: String
     
-    var isLinked: Bool { get }
-    
-    var longUploadsStatus: String { get }
-    
-    var madeForKids: Bool { get }
-    
-    var selfDeclareMadeForKids: Bool { get }
+    enum CodingKeys: String, CodingKey {
+        case likes = "likes"
+        case uploads = "uploads"
+    }
     
 }
 
 
-// MARK: - YouTube Channel Branding Settings
+// MARK: - YouTube Channel Statistics JSON
 
-protocol YouTubeChannelBrandingSettings: Codable {
+struct YouTubeChannelStatisticsJSON: Codable {
     
-    var channel: YouTubeChannelBrandingSettingsChannel? { get }
+    var viewCount: UInt32
+    var subscriberCount: UInt32
+    var hiddenSubscriberCount: Bool
+    var videoCount: UInt32
     
-    var watch: YouTubeChannelBrandingSettingsWatch? { get }
+    enum CodingKeys: String, CodingKey {
+        case viewCount = "viewCount"
+        case subscriberCount = "subscriberCount"
+        case hiddenSubscriberCount = "hiddenSubscriberCount"
+        case videoCount = "videoCount"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.viewCount = UInt32(try container.decode(String.self, forKey: .viewCount)) ?? 0
+        self.subscriberCount = UInt32(try container.decode(String.self, forKey: .subscriberCount)) ?? 0
+        self.hiddenSubscriberCount = try container.decode(Bool.self, forKey: .hiddenSubscriberCount)
+        self.videoCount = UInt32(try container.decode(String.self, forKey: .videoCount)) ?? 0
+    }
     
 }
 
 
-protocol YouTubeChannelBrandingSettingsChannel: Codable {
+// MARK: - YouTube Channel Topic Details JSON
+
+struct YouTubeChannelTopicDetailsJSON: Codable {
     
-    var title: String { get }
+    var topicIDs: [String]
+    var topicCategories: [String]
     
-    var description: String { get }
-    
-    var keywords: String { get }
-    
-    var trackingAnalyticsAccountID: String { get }
-    
-    var moderateComments: String { get }
-    
-    var unsubscribedTrailer: String { get }
-    
-    var defaultLanguage: String { get }
-    
-    var country: String { get }
+    enum CodingKeys: String, CodingKey {
+        case topicIDs = "topicIds"
+        case topicCategories = "topicCategories"
+    }
     
 }
 
 
-protocol YouTubeChannelBrandingSettingsWatch: Codable {
+// MARK: - YouTube Channel Status JSON
+
+struct YouTubeChannelStatusJSON: Codable {
     
-    var textColor: String { get }
+    var privacyStatus: String
+    var isLinked: Bool
+    var longUploadsStatus: String
+    var madeForKids: Bool
+    var selfDeclareMadeForKids: Bool
     
-    var backgroundColor: String { get }
+    enum CodingKeys: String, CodingKey {
+        case privacyStatus = "privacyStatus"
+        case isLinked = "isLinked"
+        case longUploadsStatus = "longUploadsStatus"
+        case madeForKids = "madeForKids"
+        case selfDeclareMadeForKids = "selfDeclareMadeForKids"
+    }
     
-    var featuredPlaylistID: String { get }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.privacyStatus = try container.decode(String.self, forKey: .privacyStatus)
+        self.isLinked = try container.decode(Bool.self, forKey: .isLinked)
+        self.longUploadsStatus = try container.decode(String.self, forKey: .longUploadsStatus)
+        self.madeForKids = (try? container.decode(Bool.self, forKey: .madeForKids)) ?? false
+        self.selfDeclareMadeForKids = (try? container.decode(Bool.self, forKey: .selfDeclareMadeForKids)) ?? false
+    }
     
 }
 
 
-// MARK: - YouTube Channel Audit Details
+// MARK: - YouTube Channel Branding Settings JSON
 
-protocol YouTubeChannelAuditDetails: Codable {
+struct YouTubeChannelBrandingSettingsJSON: Codable {
     
-    var overallGoodStanding: Bool { get }
+    var channel: YouTubeChannelBrandingSettingsChannelJSON?
+    var watch: YouTubeChannelBrandingSettingsWatchJSON?
     
-    var communityGuidelinesGoodStanding: Bool { get }
-    
-    var copyrightStrikeGoodStanding: Bool { get }
-    
-    var contentIDClaimsGoodStanding: Bool { get }
+    enum CodingKeys: String, CodingKey {
+        case channel = "channel"
+        case watch = "watch"
+    }
     
 }
 
 
-// MARK: - YouTube Channel Content Owner Details
+struct YouTubeChannelBrandingSettingsChannelJSON: Codable {
+    
+    var title: String
+    var description: String
+    var keywords: String
+    var trackingAnalyticsAccountID: String
+    var moderateComments: String
+    var unsubscribedTrailer: String
+    var defaultLanguage: String
+    var country: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case description = "description"
+        case keywords = "keywords"
+        case trackingAnalyticsAccountID = "trackingAnalyticsAccountId"
+        case moderateComments = "moderateComments"
+        case unsubscribedTrailer = "unsubscribedTrailer"
+        case defaultLanguage = "defaultLanguage"
+        case country = "country"
+    }
+    
+}
 
-protocol YouTubeChannelContentOwnerDetails: Codable {
+
+struct YouTubeChannelBrandingSettingsWatchJSON: Codable {
     
-    var contentOwner: String { get }
+    var textColor: String
+    var backgroundColor: String
+    var featuredPlaylistID: String
     
-    var timeLinked: Date { get }
+    enum CodingKeys: String, CodingKey {
+        case textColor = "textColor"
+        case backgroundColor = "backgroundColor"
+        case featuredPlaylistID = "featuredPlaylistId"
+    }
+    
+}
+
+
+// MARK: - YouTube Channel Audit Details JSON
+
+struct YouTubeChannelAuditDetailsJSON: Codable {
+    
+    var overallGoodStanding: Bool
+    var communityGuidelinesGoodStanding: Bool
+    var copyrightStrikeGoodStanding: Bool
+    var contentIDClaimsGoodStanding: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case overallGoodStanding = "overallGoodStanding"
+        case communityGuidelinesGoodStanding = "communityGuidelinesGoodStanding"
+        case copyrightStrikeGoodStanding = "copyrightStrikeGoodStanding"
+        case contentIDClaimsGoodStanding = "contentIdClaimsGoodStanding"
+    }
+    
+}
+
+
+// MARK: - YouTube Channel Content Owner Details JSON
+
+struct YouTubeChannelContentOwnerDetailsJSON: Codable {
+    
+    var contentOwner: String
+    var timeLinked: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case contentOwner = "contentOwner"
+        case timeLinked = "timeLinked"
+    }
     
 }

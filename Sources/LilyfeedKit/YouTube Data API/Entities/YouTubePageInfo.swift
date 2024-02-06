@@ -1,5 +1,5 @@
 //
-//  YouTubePageInfo.swift
+//  YouTubePageInfoJSON.swift
 //
 //
 //  Created by Bunga Mungil on 01/02/24.
@@ -8,10 +8,15 @@
 import Foundation
 
 
-protocol YouTubePageInfo {
+struct YouTubePageInfoJSON: Codable {
     
-    var totalResult: UInt { get }
+    var totalResult: UInt
     
-    var resultPerPage: UInt { get }
+    var resultsPerPage: UInt
+    
+    enum CodingKeys: String, CodingKey {
+        case totalResult = "totalResults"
+        case resultsPerPage = "resultsPerPage"
+    }
     
 }

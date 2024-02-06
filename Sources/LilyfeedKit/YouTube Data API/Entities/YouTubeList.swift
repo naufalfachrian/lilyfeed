@@ -1,27 +1,39 @@
 //
-//  YouTubeList.swift
+//  YouTubeListJSON.swift
 //
 //
-//  Created by Bunga Mungil on 02/02/24.
+//  Created by Bunga Mungil on 31/01/24.
 //
 
 import Foundation
 
 
-protocol YouTubeList {
+class YouTubeListJSON<Items: Codable>: Codable {
     
-    associatedtype Items
+    var eTag: String
     
-    var eTag: String { get }
+    var items: [Items]
     
-    var items: [Items] { get }
+    var pageInfo: YouTubePageInfoJSON
     
-    var pageInfo: YouTubePageInfo { get }
+    enum CodingKeys: String, CodingKey {
+        case eTag = "etag"
+        case items = "items"
+        case pageInfo = "pageInfo"
+    }
     
 }
 
 
-protocol YouTubeVideoList: YouTubeList where Items == YouTubeVideoDetail { }
+// MARK: - YouTube Video List JSON
+
+class YouTubeVideoListJSON: YouTubeListJSON<YouTubeVideoDetailJSON> {
+    
+}
 
 
-protocol YouTubeChannelList: YouTubeList where Items == YouTubeChannel { }
+// MARK: - YouTube Channel List JSON
+
+class YouTubeChannelListJSON: YouTubeListJSON<YouTubeChannelJSON> {
+    
+}
